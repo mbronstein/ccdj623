@@ -12,7 +12,7 @@ ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent
 APPS_DIR = ROOT_DIR / "ccd623"
 env = environ.Env()
 
-READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", True)  #mb changed default to true
+READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", True)  # mb changed default to true
 if READ_DOT_ENV_FILE:
     # OS environment variables take precedence over variables from .env
     env.read_env(ROOT_DIR / ".env")
@@ -20,9 +20,9 @@ if READ_DOT_ENV_FILE:
 SECRET_KEY = env.str("DJANGO_SECRET_KEY")
 DEBUG = env.bool("DEBUG", True)
 DEBUG_TOOLBAR = env.bool("DEBUG_TOOLBAR", True)
-SILK=env.bool("SILK", False)
+SILK = env.bool("SILK", False)
 
-TIME_ZONE='UTC'
+TIME_ZONE = 'UTC'
 LANGUAGE_CODE = "en-us"
 SITE_ID = 1
 USE_I18N = False
@@ -31,7 +31,7 @@ USE_TZ = True
 
 LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 
-ALLOWED_HOSTS= env.list("ALLOWED_HOSTS")
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 DATABASES = {
     'default': {
@@ -53,7 +53,6 @@ CACHES = {
 ROOT_URLCONF = "ccdj623.urls"
 
 WSGI_APPLICATION = "ccdj623.wsgi.application"
-
 
 DJANGO_APPS = [
     'django.contrib.admin',
@@ -79,12 +78,11 @@ THIRD_PARTY_APPS = [
     "django_extensions",
     # "django_filters",
     "post_office",
-    #"silk",
+    # "silk",
 ]
 
 LOCAL_APPS = [
-      # "ssa412.users",
-      # "apps.ssoffices.apps.SsofficesConfig"
+    # "apps.ssoffices.apps.SsofficesConfig"
 
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -131,9 +129,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'ccdj623.wsgi.application'
-
-
 # https://docs.djangoproject.com/en/dev/ref/settings/#form-renderer
 FORM_RENDERER = "django.forms.renderers.TemplatesSetting"
 
@@ -168,14 +163,13 @@ EMAIL_BACKEND = env(
     "DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend"
 )
 
-
 POST_OFFICE = {
-    'DEFAULT_PRIORITY' : 'now'
+    'DEFAULT_PRIORITY': 'now'
 }
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-timeout
 EMAIL_TIMEOUT = 5
-EMAIL_HOST= env('EMAIL_HOST')
-EMAIL_USE_TLS= env('EMAIL_USE_TLS', default=False)
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_USE_TLS = env('EMAIL_USE_TLS', default=False)
 EMAIL_PORT = env("EMAIL_PORT")
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
@@ -197,7 +191,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Static files (CSS, JavaScript, Images)
 
 
@@ -215,7 +208,6 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
-
 # MEDIA
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-root
@@ -223,7 +215,6 @@ MEDIA_ROOT = str(APPS_DIR / "media")
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = "/media/"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 # WhiteNoise
 # ------------------------------------------------------------------------------
@@ -237,11 +228,8 @@ ADMINS = [("""Mark Bronstein""", "mark@bronsteinlaw.com")]
 # https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
 
-
 # django-debug-toolbar
 # ------------------------------------------------------------------------------
-# https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#prerequisites
-DEBUG_TOOLBAR = env.bool('DEBUG_TOOLBAR', default=False)
 if DEBUG_TOOLBAR is True:
     INSTALLED_APPS += ["debug_toolbar"]  # noqa F405
     # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#middleware
@@ -266,7 +254,7 @@ LOGGING = {
     "formatters": {
         "verbose": {
             "format": "%(levelname)s %(asctime)s %(module)s "
-            "%(process)d %(thread)d %(message)s"
+                      "%(process)d %(thread)d %(message)s"
         }
     },
     "handlers": {
