@@ -82,6 +82,7 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
+    "matters.apps.MattersConfig",
     # "apps.ssoffices.apps.SsofficesConfig"
 
 ]
