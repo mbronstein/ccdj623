@@ -37,8 +37,8 @@ from matters.models import Matter
 
 
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ("title", "matter", "priority", "due_date", "assigned_to", "completed")
-    list_filter = ("matter", "assigned_to")
+    list_display = ("title", "type", "matter", "priority", "due_date", "assigned_to", "completed")
+    list_filter = ("matter", "type", "assigned_to")
     ordering = ("priority", "due_date",)
     search_fields = ["title"]
     # actions = [export_to_csv]
