@@ -82,6 +82,8 @@ class Task(models.Model):
     class TaskType(models.TextChoices):
         CALL = 'CALL', 'Call'
         DRAFT = 'DRAFT', 'Draft Doc'
+        FAX = 'FAX', 'Fax'
+        UPLOAD = 'UPLOAD', 'Upload to ERE'
         OTHER = 'OTHER', "Other"
 
     title = models.CharField(max_length=140)
@@ -91,8 +93,6 @@ class Task(models.Model):
                                null=True
                                )
     created_date = models.DateField(default=timezone.now,
-                                    blank=True,
-                                    null=True
                                     )
     due_date = models.DateField(blank=True,
                                 null=True
@@ -102,22 +102,19 @@ class Task(models.Model):
                                       null=True
                                       )
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                   null=True,
-                                   blank=True,
+                                   default=2,
                                    related_name="todo_created_by",
                                    on_delete=models.CASCADE,
                                    )
     assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                    blank=True,
-                                    null=True,
+                                    default=1,
                                     related_name="todo_assigned_to",
                                     on_delete=models.CASCADE,
                                     )
     note = models.TextField(blank=True,
                             null=True,
                             )
-    priority = models.PositiveIntegerField(blank=True,
-                                           null=True
+    priority = models.PositiveIntegerField(default=0
                                            )
 
     # Has due date for an instance of this object passed?
