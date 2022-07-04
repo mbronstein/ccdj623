@@ -33,12 +33,14 @@ LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ROOT_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': ROOT_DIR / 'db.sqlite3',
+#     }
+# }
+
+DATABASES = {'default': env.db('DATABASE_URL')}
 
 # caches : maybe have diff caches depending whether dev or prod?
 CACHES = {
@@ -78,11 +80,14 @@ THIRD_PARTY_APPS = [
     "django_extensions",
     # "django_filters",
     "post_office",
+
     # "silk",
 ]
 
 LOCAL_APPS = [
     "matters.apps.MattersConfig",
+    "todos.apps.TodosConfig",
+    "events.apps.EventsConfig",
     # "apps.ssoffices.apps.SsofficesConfig"
 
 ]
@@ -228,6 +233,8 @@ ADMIN_URL = "admin/"
 ADMINS = [("""Mark Bronstein""", "mark@bronsteinlaw.com")]
 # https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
+
+TAGGIT_CASE_INSENSITIVE=True
 
 # django-debug-toolbar
 # ------------------------------------------------------------------------------

@@ -1,4 +1,3 @@
-from .matters import Matter
-# from .stores import Store, StoreBook, StoreBookSubscription
+from .matters import MatterType, Matter
 
-__all__ = ["Matter", ]
+__all__ = ["MatterType", "Matter"]
