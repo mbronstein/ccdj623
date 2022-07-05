@@ -5,6 +5,7 @@ import textwrap
 
 from django.conf import settings
 from django.contrib.auth.models import Group
+from django.contrib.auth import get_user_model
 from django.db import DEFAULT_DB_ALIAS, models
 from django.db.transaction import Atomic, get_connection
 from django.urls import reverse
@@ -12,19 +13,40 @@ from django.utils import timezone
 
 from matters.models import Matter
 
+USER_MODEL = get_user_model()
+
+
+class EventType(models.Model):
+    id = models.BigAutoField
+    name = models.CharField(max_length=150)
+    description = models.TextField(null=True, blank=True)
+    notes = models.TextField(null=True, blank=True)
+    created_by = models.ForeignKey(
+        USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="user_eventtypes"
+    )
+    modified = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        app_label = 'events'
+
 
 class Event(models.Model):
 
-    class EventType(models.TextChoices):
-        CALL = 'CALL', 'Call'
-        CONF = 'CONF', 'Conference'
-        DEADLINE = 'DEAD', "Deadline"
-        VIDEO = 'VID', 'Video Conf'
-        SS_HEARING = 'OHO_HEAR', 'OHO Hearing'
-        MEET = 'MEET', "Meeting"
-        PRESENTATION = 'PRES', "Presentation"
-        OTHER = 'OTHER', 'Other'
-        WARNING= 'WARN', 'Deadline Warning'
+    # class EventType(models.TextChoices):
+    #     CALL = 'CALL', 'Call'
+    #     CONF = 'CONF', 'Conference'
+    #     DEADLINE = 'DEAD', "Deadline"
+    #     VIDEO = 'VID', 'Video Conf'
+    #     SS_HEARING = 'OHO_HEAR', 'OHO Hearing'
+    #     MEET = 'MEET', "Meeting"
+    #     PRESENTATION = 'PRES', "Presentation"
+    #     OTHER = 'OTHER', 'Other'
+    #     WARNING = 'WARN', 'Deadline Warning'
 
     class StatusType(models.TextChoices):
         SCHEDULED = 'SCHED', 'Scheduled'
@@ -32,7 +54,6 @@ class Event(models.Model):
         DONE = 'DONE', 'Done'
         ONHOLD = 'ONHOLD', 'On Hold'
         OTHER = 'OTHER', 'Other'
-
 
         # class LocationChoices(models.TextChoices):
         #     UNKNOWN = "unk", "Unknown"
@@ -42,7 +63,10 @@ class Event(models.Model):
         #
 
     title = models.CharField(max_length=140)
-    type = models.CharField(max_length=10, choices=EventType.choices, default=EventType.OTHER)
+    type = models.ForeignKey('EventType',
+                             default=1,
+                             on_delete=models.CASCADE,
+                             related_name="event_tasks")
     matter = models.ForeignKey(Matter,
                                on_delete=models.CASCADE,
                                null=True,
@@ -80,4 +104,5 @@ class Event(models.Model):
         return reverse("event_detail", kwargs={"event_id": self.id})
 
     class Meta:
+        app_label = 'events'
         ordering = ["priority", "created_date"]

@@ -7,12 +7,15 @@ import textwrap
 
 from django.conf import settings
 from django.contrib.auth.models import Group
+from django.contrib.auth import get_user_model
 from django.db import DEFAULT_DB_ALIAS, models
 from django.db.transaction import Atomic, get_connection
 from django.urls import reverse
 from django.utils import timezone
 
 from matters.models import Matter
+
+USER_MODEL = get_user_model()
 
 
 def get_attachment_upload_dir(instance, filename):
@@ -54,11 +57,10 @@ class LockedAtomicTransaction(Atomic):
                 if cursor and not cursor.closed:
                     cursor.close()
 
+    # class TaskList(models.Model):
 
-# class TaskList(models.Model):
-#     class TaskType(models.TextChoices):
-#         USER = 'U', 'User'
-#         MATTER = 'M', 'Matter'
+
+#
 #
 #     name = models.CharField(max_length=60)
 #     slug = models.SlugField(default="")
@@ -76,18 +78,31 @@ class LockedAtomicTransaction(Atomic):
 #         # Prevents (at the database level) creation of two lists with the same slug in the same group
 #         unique_together = ("group", "slug")  # TODO: also need to make matter list unique as well
 
+class TaskType(models.Model):
+    id = models.BigAutoField
+    name = models.CharField(max_length=150)
+    description = models.TextField(null=True, blank=True)
+    notes = models.TextField(null=True, blank=True)
+    created_by = models.ForeignKey(
+        USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="user_tasktypes"
+    )
+    modified = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        app_label = 'todos'
+
 
 class Task(models.Model):
-
-    class TaskType(models.TextChoices):
-        CALL = 'CALL', 'Call'
-        DRAFT = 'DRAFT', 'Draft Doc'
-        FAX = 'FAX', 'Fax'
-        UPLOAD = 'UPLOAD', 'Upload to ERE'
-        OTHER = 'OTHER', "Other"
-
     title = models.CharField(max_length=140)
-    type = models.CharField(max_length=15, choices=TaskType.choices, default=TaskType.OTHER)
+    type = models.ForeignKey(TaskType,
+                             default=1,
+                             on_delete=models.CASCADE,
+                             related_name="types_tasks")
     matter = models.ForeignKey(Matter,
                                on_delete=models.CASCADE,
                                null=True
@@ -148,6 +163,7 @@ class Task(models.Model):
             self.delete()
 
     class Meta:
+        app_label = 'todos'
         ordering = ["priority", "created_date"]
 
 
