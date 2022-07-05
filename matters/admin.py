@@ -3,7 +3,7 @@ from .models import MatterType, Matter
 
 
 class MatterTypeAdmin(admin.ModelAdmin):
-    list_display = ['name', 'description']
+    list_display = ['name', 'description', 'id']
 
 class MatterAdmin(admin.ModelAdmin):
     list_display = ['name', 'type']
