@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="PostgreSQL [2]" uuid="99a1444d-2e81-4021-b56a-cd4d671c055e">
-      <driver-ref>postgresql</driver-ref>
+    <data-source source="LOCAL" name="DO-pgsql" uuid="5565e05e-cd9d-4729-b110-1da66a1938db">
       <synchronize>true</synchronize>
       <configured-by-url>true</configured-by-url>
+      <jdbc-driver>java.sql.Driver</jdbc-driver>
+      <jdbc-url>postgresql://doadmin:URAaH2YnpV9IgXlg@mb-pgsql1-do-user-2933190-0.a.db.ondigitalocean.com:25060/ccdj623?sslmode=require</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="PostgreSQL" uuid="577f607a-8860-439d-a237-f3c0516ba01d">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://doadmin:URAaH2YnpV9IgXlg@mb-pgsql1-do-user-2933190-0.a.db.ondigitalocean.com:25060/ccdj623?sslmode=require</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>

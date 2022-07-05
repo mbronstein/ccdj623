@@ -9,6 +9,7 @@ import uuid
 from taggit.managers import TaggableManager
 from phonenumber_field.modelfields import PhoneNumberField
 
+class EntryType(
 
 class BaseEntry(models.Model):
 

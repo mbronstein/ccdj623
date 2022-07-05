@@ -5,17 +5,19 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from taggit.managers import TaggableManager
 
+USER_MODEL = get_user_model()
+
+
 # Create your models here.
-UserModel = get_user_model()
 
 
 class MatterType(models.Model):
-    id=models.BigAutoField
+    id = models.BigAutoField
     name = models.CharField(max_length=150)
     description = models.TextField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     created_by = models.ForeignKey(
-        UserModel,
+        USER_MODEL,
         on_delete=models.CASCADE,
         related_name="user_mattertypes"
     )
@@ -39,7 +41,7 @@ class Matter(models.Model):
                              related_name="types_matters")
     tags = TaggableManager(blank=True)
     created_by = models.ForeignKey(
-        UserModel,
+        USER_MODEL,
         default=1,
         on_delete=models.CASCADE,
         related_name="user_matters"

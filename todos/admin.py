@@ -5,7 +5,7 @@ import datetime
 from django.contrib import admin
 from django.http import HttpResponse
 
-from .models import Attachment, Comment, Task
+from .models import Attachment, Comment, Task, TaskType
 from matters.models import Matter
 
 
@@ -34,12 +34,15 @@ from matters.models import Matter
 #
 #
 # export_to_csv.short_description = "Export to CSV"
-
+class TaskTypeAdmin(admin.ModelAdmin):
+    list_display = ["name", 'description', 'id']
+    ordering = ["name"]
+    search_fields = ["name", "description"]
 
 class TaskAdmin(admin.ModelAdmin):
     list_display = ("title", "type", "matter", "priority", "due_date", "assigned_to", "completed")
     list_filter = ("matter", "type", "assigned_to")
-    ordering = ("priority", "due_date",)
+    ordering = ["priority", "due_date"]
     search_fields = ["title"]
     # actions = [export_to_csv]
 
@@ -54,6 +57,8 @@ class AttachmentAdmin(admin.ModelAdmin):
 
 
 # admin.site.register(TaskList)
-admin.site.register(Comment, CommentAdmin)
 admin.site.register(Task, TaskAdmin)
+admin.site.register(TaskType, TaskTypeAdmin)
+admin.site.register(Comment, CommentAdmin)
+
 admin.site.register(Attachment, AttachmentAdmin)

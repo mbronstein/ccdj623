@@ -3,10 +3,10 @@ from .models import MatterType, Matter
 
 
 class MatterTypeAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['name', 'description']
 
 class MatterAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['name', 'type']
 
 admin.site.register(Matter, MatterAdmin)
 admin.site.register(MatterType, MatterTypeAdmin)
