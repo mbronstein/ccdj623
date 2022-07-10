@@ -1,4 +1,4 @@
-# ccdj623/matters/models/entries.py
+# ccdj623/matters/models/models.py
 from django.db.models import Choices
 from django.utils import timezone
 # from django_mailbox.models import Message as EmailMessage

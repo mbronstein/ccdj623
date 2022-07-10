@@ -76,7 +76,7 @@ export class CommentBox extends React.Component {
         else
           return (
             <h5 className="mt-4 mb-5 text-center text-info">
-              {django.gettext("Only registered users can post comments.")}
+              {django.gettext("Only registered accounts can post comments.")}
            </h5>
           );
       }

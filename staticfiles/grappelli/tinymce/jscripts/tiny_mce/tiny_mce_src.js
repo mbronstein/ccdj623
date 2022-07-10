@@ -1090,7 +1090,7 @@ tinymce.create('static tinymce.util.XHR', {
 		},
 
 		metaKeyPressed: function(e) {
-			// Check if ctrl or meta key is pressed also check if alt is false for Polish users
+			// Check if ctrl or meta key is pressed also check if alt is false for Polish accounts
 			return tinymce.isMac ? e.metaKey : e.ctrlKey && !e.altKey;
 		}
 	};
@@ -10803,7 +10803,7 @@ window.tinymce.dom.Sizzle = Sizzle;
 			}
 
 			// Most browsers support this feature so we report errors
-			// for those at least to help users track their missing plugins etc
+			// for those at least to help accounts track their missing plugins etc
 			// todo: Removed since it produced error if the document is unloaded by navigating away, re-add it as an option
 			/*elm.onerror = function() {
 				alert('Failed to load: ' + url);
@@ -13594,7 +13594,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 
 			t.controlManager = new tinymce.ControlManager(t);
 
-			// Enables users to override the control factory
+			// Enables accounts to override the control factory
 			t.onBeforeRenderUI.dispatch(t, t.controlManager);
 
 			// Measure box

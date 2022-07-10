@@ -849,7 +849,7 @@
 		},
 
 		/**
-		 * This method will open the old style paste dialogs. Some users might want the old behavior but still use the new cleanup engine.
+		 * This method will open the old style paste dialogs. Some accounts might want the old behavior but still use the new cleanup engine.
 		 */
 		_legacySupport : function() {
 			var t = this, ed = t.editor;

@@ -13,7 +13,7 @@ USER_MODEL = get_user_model()
 
 class MatterType(models.Model):
     id = models.BigAutoField
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=150, unique=True)
     description = models.TextField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     created_by = models.ForeignKey(
@@ -32,7 +32,7 @@ class MatterType(models.Model):
 
 class Matter(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=150, unique=True)
     case_id = models.CharField(max_length=150)
     description = models.TextField(null=True, blank=True)
     type = models.ForeignKey(MatterType,

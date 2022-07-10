@@ -1,9 +1,3 @@
-from django.db import models
-import datetime
-import os
-import textwrap
-
-from django.conf import settings
 from django.contrib.auth.models import Group
 from django.contrib.auth import get_user_model
 from django.db import DEFAULT_DB_ALIAS, models
@@ -15,8 +9,6 @@ import matters.models
 from matters.models import Matter
 
 USER_MODEL = get_user_model()
-
-
 
 
 class EventType(models.Model):

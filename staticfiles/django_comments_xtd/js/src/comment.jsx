@@ -88,7 +88,7 @@ export class Comment extends React.Component {
       {
         let fmts = django.ngettext(
           "%s user has flagged this comment as inappropriate.",
-          "%s users have flagged this comment as inappropriate.",
+          "%s accounts have flagged this comment as inappropriate.",
           this.state.removal_count);
         let text = django.interpolate(fmts, [this.state.removal_count]);
         flagging_count = (<span className="badge badge-danger" title={text}>
@@ -142,7 +142,7 @@ export class Comment extends React.Component {
 
     if(this.props.settings.show_feedback) {
       /* Check whether the user is no longer liking/disliking the comment,
-       * and be sure the list of users who liked/disliked the comment
+       * and be sure the list of accounts who liked/disliked the comment
        * is up-to-date likewise.
        */
       let current_user_id = this.state.current_user.split(":")[0];

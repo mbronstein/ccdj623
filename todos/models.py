@@ -80,7 +80,7 @@ class LockedAtomicTransaction(Atomic):
 
 class TaskType(models.Model):
     id = models.BigAutoField
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=150, unique=True)
     description = models.TextField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     created_by = models.ForeignKey(
@@ -98,7 +98,7 @@ class TaskType(models.Model):
 
 
 class Task(models.Model):
-    title = models.CharField(max_length=140)
+    title = models.CharField(max_length=140, unique=True)
     type = models.ForeignKey(TaskType,
                              default=1,
                              on_delete=models.CASCADE,
