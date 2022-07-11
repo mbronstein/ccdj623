@@ -134,6 +134,7 @@ class Task(models.Model):
                                    default=2,
                                    related_name="todo_created_by",
                                    on_delete=models.CASCADE,
+
                                    )
     assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL,
                                     default=1,
