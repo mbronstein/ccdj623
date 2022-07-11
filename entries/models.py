@@ -1,11 +1,12 @@
 # ccdj623/entries/models/models.py
 #
 from django.contrib.auth import get_user_model
-# from django.db.models import Choices
+from django.db import models
+
 # from django.utils import timezone
 # # from django_mailbox.models import Message as EmailMessage
 # # from wip.matters.models import BaseMatter, Choices
-from django.db import models
+
 from django.conf import settings
 import uuid
 from taggit.managers import TaggableManager
@@ -47,7 +48,7 @@ class EntryCategory(models.Model):
         verbose_name_plural = "entry categories"
 
 
-class BaseEntry(models.Model):
+# class BaseEntry(models.Model):
     # class EntryIoChoices(models.TextChoices):
     #     OTHER = "OTH", "Other"
     #     IN = 'IN', "Incoming"
@@ -84,26 +85,26 @@ class BaseEntry(models.Model):
     #     ("insco", "Ins Co"),
     # )
 
-    id = models.BigAutoField
-    title = models.CharField(max_length=60)
-    category = models.ForeignKey('entries.EntryCategory',
-                                 null=True,
-                                 blank=True,
-                                 on_delete=models.CASCADE,
-                                 related_name='%(class)s_categories'
-                                 )
-    matter = models.ForeignKey("matters.Matter",
-                               on_delete=models.CASCADE,
-                               null=True,
-                               related_name='%(class)s_matters',
-                               )
-    status = models.CharField(max_length=20,
-                              choices=EntryStatusChoices.choices,
-                              default="NEW"
-                              )
-    description = models.CharField(max_length=100, null=True, blank=True)
-    notes = models.TextField(null=True, blank=True)
-    tags = TaggableManager()
+    # id = models.BigAutoField
+    # title = models.CharField(max_length=60)
+    # category = models.ForeignKey('entries.EntryCategory',
+    #                              null=True,
+    #                              blank=True,
+    #                              on_delete=models.CASCADE,
+    #                              related_name='%(class)s_categories'
+    #                              )
+    # matter = models.ForeignKey("matters.Matter",
+    #                            on_delete=models.CASCADE,
+    #                            null=True,
+    #                            related_name='%(class)s_matters',
+    #                            )
+    # status = models.CharField(max_length=20,
+    #                           choices=EntryStatusChoices.choices,
+    #                           default="NEW"
+    #                           )
+    # description = models.CharField(max_length=100, null=True, blank=True)
+    # notes = models.TextField(null=True, blank=True)
+    # tags = TaggableManager()
     # originator_type = models.CharField(max_length=20, choices=Entry)
     # recipient_type = models.CharField(max_length=20, choices=CategoryChoices)
     # originator = models.CharField(max_length=80, default="unk")
@@ -122,30 +123,30 @@ class BaseEntry(models.Model):
     # billed_time = models.DecimalField(default=0, max_digits=5, decimal_places=2)
     # billing_label = models.CharField(max_length=80, null=True, blank=True)
 
-    user = models.ForeignKey(USER_MODEL,
-                             on_delete=models.CASCADE,
-                             related_name='%(class)s_users'
-                             )
-    deleted = models.BooleanField(default=True)
-    created_by = models.ForeignKey(USER_MODEL,
-                                   on_delete=models.CASCADE,
-                                   related_name='%(class)s_notes_created',
-                                   default=2
-                                   )
-    modified = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title + "(Entry)"
-
-    class Meta:
-        app_label = 'entries'
-        verbose_name_plural = 'entries'
-
-    objects = InheritanceManager()
-
-    # startdate = models.DateTimeField(default=timezone.now)
-    # enddate = models.DateTimeField(default=timezone.now)
-    # duration = models.DecimalField(default=0, max_digits=5, decimal_places=2)
+    # user = models.ForeignKey(USER_MODEL,
+    #                          on_delete=models.CASCADE,
+    #                          related_name='%(class)s_users'
+    #                          )
+    # deleted = models.BooleanField(default=True)
+    # created_by = models.ForeignKey(USER_MODEL,
+    #                                on_delete=models.CASCADE,
+    #                                related_name='%(class)s_notes_created',
+    #                                default=2
+    #                                )
+    # modified = models.DateTimeField(auto_now_add=True)
+    #
+    # def __str__(self):
+    #     return self.title + "(Entry)"
+    #
+    # class Meta:
+    #     app_label = 'entries'
+    #     verbose_name_plural = 'entries'
+    #
+    # objects = InheritanceManager()
+    #
+    # # startdate = models.DateTimeField(default=timezone.now)
+    # # enddate = models.DateTimeField(default=timezone.now)
+    # # duration = models.DecimalField(default=0, max_digits=5, decimal_places=2)
 
 #
 # class NoteEntry(BaseEntry):

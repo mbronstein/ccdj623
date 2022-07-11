@@ -1,12 +1,10 @@
+from .models import EntryCategory
 from django.contrib import admin
 
-# from entries.models import EntryCategory, NoteEntry, CallEntry, TimeEntry
-#
-#
-# @admin.register(EntryCategory)
-# class EntryCategoryAdmin(admin.ModelAdmin):
-#     list_display = ['name', 'type', 'description', 'id']
-#
+@admin.register(EntryCategory)
+class EntryCategoryAdmin(admin.ModelAdmin):
+    list_display = ['name', 'type', 'description', 'id']
+
 #
 # @admin.register(NoteEntry)
 # class NoteEntryAdmin(admin.ModelAdmin):
