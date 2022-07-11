@@ -37,7 +37,7 @@ from matters.models import Matter
 #
 @admin.register(TaskCategory)
 class TaskCategoryAdmin(admin.ModelAdmin):
-    list_display = ["name", 'description', 'id']
+    list_display = ["name", 'type', 'description', 'id']
     ordering = ["name"]
     search_fields = ["name", "description"]
 

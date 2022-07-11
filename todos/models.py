@@ -78,8 +78,21 @@ class LockedAtomicTransaction(Atomic):
 #         # Prevents (at the database level) creation of two lists with the same slug in the same group
 #         unique_together = ("group", "slug")  # TODO: also need to make matter list unique as well
 
+
 class TaskCategory(models.Model):
+    class TaskTypeChoices(models.IntegerChoices):
+        UNKNOWN = 1, 'Unknown'
+        CALL = 2, 'Call'
+        WAIT = 3, 'Wait'
+        EMAIL = 4, "Email"
+        DRAFT = 5, 'Draft'
+        REVIEW = 6, 'Review'
+        UPLOAD = 7, "Send"
+        OTHER = 8, 'Other'
+
     id = models.BigAutoField
+    type = models.IntegerField(choices=TaskTypeChoices.choices,
+                               default=TaskTypeChoices.UNKNOWN)
     name = models.CharField(max_length=150, unique=True)
     description = models.TextField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
@@ -99,19 +112,7 @@ class TaskCategory(models.Model):
 
 
 class Task(models.Model):
-    class TaskType(models.IntegerChoices):
-        UNKNOWN = 1, 'Unknown'
-        CALL = 2, 'Call'
-        WAIT = 3, 'Wait'
-        EMAIL = 4, "Email"
-        DRAFT = 5, 'Draft'
-        REVIEW = 6, 'Review'
-        UPLOAD = 7, "Upload"
-        OTHER = 8, 'Other'
-
     title = models.CharField(max_length=140, unique=True)
-    type = models.IntegerField(choices=TaskType.choices,
-                               default=TaskType.UNKNOWN)
     category = models.ForeignKey('TaskCategory',
                                  default=1,
                                  on_delete=models.CASCADE,

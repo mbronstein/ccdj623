@@ -12,7 +12,21 @@ USER_MODEL = get_user_model()
 
 
 class EventCategory(models.Model):
+    class EventTypeChoices(models.IntegerChoices):
+        UNKNOWN = 1, 'Unknown'
+        CALL = 2, 'Call'
+        CONF = 3, 'Conference'
+        DEADLINE = 4, "Deadline"
+        VIDEO = 5, 'Video Conf'
+        SS_HEARING = 6, 'OHO Hearing'
+        MEET = 7, "Meeting"
+        PRESENTATION = 8, "Presentation"
+        OTHER = 9, 'Other'
+        WARNING = 10, 'Deadline Warning'
+
     name = models.CharField(max_length=150)
+    type = models.IntegerField(choices=EventTypeChoices.choices,
+                               default=EventTypeChoices.UNKNOWN)
     description = models.TextField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     created_by = models.ForeignKey(
@@ -31,18 +45,6 @@ class EventCategory(models.Model):
 
 
 class Event(models.Model):
-    class EventType(models.IntegerChoices):
-        UNKNOWN = 1, 'Unknown'
-        CALL = 2, 'Call'
-        CONF = 3, 'Conference'
-        DEADLINE = 4, "Deadline"
-        VIDEO = 5, 'Video Conf'
-        SS_HEARING = 6, 'OHO Hearing'
-        MEET = 7, "Meeting"
-        PRESENTATION = 8, "Presentation"
-        OTHER = 9, 'Other'
-        WARNING = 10, 'Deadline Warning'
-
     # class StatusType(models.TextChoices):
     #     SCHEDULED = 'SCHED', 'Scheduled'
     #     CANCELLED = 'CANC', 'Cancelled'
@@ -56,7 +58,6 @@ class Event(models.Model):
     #     OFFICE = "office", "Office"
     #     CALL = "call", "Call"
     #
-    type = models.IntegerField(choices=EventType.choices, default=1)
     title = models.CharField(max_length=140)
     category = models.ForeignKey('Event',
                                  null=True,

@@ -1,1 +1,2 @@
-from .models import BaseEntry, CallEntry, NoteEntry, TimeEntry, EntryCategory
+from .models import BaseEntry
+# from .models import CallEntry, NoteEntry, TimeEntry, EntryCategory

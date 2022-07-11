@@ -146,57 +146,57 @@ class BaseEntry(models.Model):
     # enddate = models.DateTimeField(default=timezone.now)
     # duration = models.DecimalField(default=0, max_digits=5, decimal_places=2)
 
-
-class NoteEntry(BaseEntry):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(self, *args, **kwargs)
-        self.type = self.EntryTypeChoices.NOTE
-
-    class Meta:
-        app_label = 'entries'
-        verbose_name_plural = 'note entries'
-
-
-class CallEntry(BaseEntry):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(self, *args, **kwargs)
-        self.type = self.EntryTypeChoices.CALL
-
-    class Meta:
-        app_label = 'entries'
-        verbose_name_plural = 'call entries'
-
-
-class TimeEntry(BaseEntry):
-    def __init__(self, *args, **kwargs):
-        super().__init__(self, *args, **kwargs)
-        self.type = self.EntryTypeChoices.TIME
-
-    class Meta:
-        app_label = 'entries'
-        verbose_name_plural = 'time entries'
-
-
-class ExpenseEntry(BaseEntry):
-    def __init__(self, *args, **kwargs):
-        super().__init__(self, *args, **kwargs)
-        self.type = self.EntryTypeChoices.TIME
-
-    class Meta:
-        app_label = 'entries'
-        verbose_name_plural = 'expense entries'
-
-
-class EmailEntry(BaseEntry):
-    def __init__(self):
-        super().__init__()
-        self.type = "TIME"
-
-    class Meta:
-        app_label = 'entries'
-        verbose_name_plural = 'emails'
+#
+# class NoteEntry(BaseEntry):
+#
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(self, *args, **kwargs)
+#         self.type = self.EntryTypeChoices.NOTE
+#
+#     class Meta:
+#         app_label = 'entries'
+#         verbose_name_plural = 'note entries'
+#
+#
+# class CallEntry(BaseEntry):
+#
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(self, *args, **kwargs)
+#         self.type = self.EntryTypeChoices.CALL
+#
+#     class Meta:
+#         app_label = 'entries'
+#         verbose_name_plural = 'call entries'
+#
+#
+# class TimeEntry(BaseEntry):
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(self, *args, **kwargs)
+#         self.type = self.EntryTypeChoices.TIME
+#
+#     class Meta:
+#         app_label = 'entries'
+#         verbose_name_plural = 'time entries'
+#
+#
+# class ExpenseEntry(BaseEntry):
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(self, *args, **kwargs)
+#         self.type = self.EntryTypeChoices.TIME
+#
+#     class Meta:
+#         app_label = 'entries'
+#         verbose_name_plural = 'expense entries'
+#
+#
+# class EmailEntry(BaseEntry):
+#     def __init__(self):
+#         super().__init__()
+#         self.type = "TIME"
+#
+#     class Meta:
+#         app_label = 'entries'
+#         verbose_name_plural = 'emails'
 #
 # class CallEntry(BaseEntry):
 #     phonenumber = PhoneNumberField()

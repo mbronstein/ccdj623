@@ -4,8 +4,8 @@ from events.models import Event, EventCategory
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    list_display = ['title', 'type', 'matter', 'startdatetime']
-    list_filter = ["matter", 'type']
+    list_display = ['title',  'category', 'matter', 'startdatetime']
+    list_filter = ["matter", 'category']
     ordering = ["startdatetime"]
     search_fields = ["title"]
     # actions = [export_to_csv]
@@ -13,5 +13,5 @@ class EventAdmin(admin.ModelAdmin):
 
 @admin.register(EventCategory)
 class EventCategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'id')
+    list_display = ('name', 'type', 'description', 'id')
     ordering = ['name']
