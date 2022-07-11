@@ -95,7 +95,7 @@ LOCAL_APPS = [
     "matters.apps.MattersConfig",
     "todos.apps.TodosConfig",
     "events.apps.EventsConfig",
-    # "entries.apps.EntriesConfig",
+   # "entries.apps.EntriesConfig",
     # "apps.ssoffices.apps.SsofficesConfig"
 
 ]

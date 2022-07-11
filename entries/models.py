@@ -17,8 +17,19 @@ USER_MODEL = get_user_model()
 
 
 class EntryCategory(models.Model):
+    class EntryTypeChoices(models.IntegerChoices):
+        UNKNOWN = 1, 'Unknown'
+        NOTE = 2, 'Note'
+        CALL = 3, 'Phone call'
+        EMAIL = 4, 'Email'
+        SMS = 5, 'SMS'
+        DOC = 6, "Document"
+        OTHER = 7, "Other"
+
     id = models.BigAutoField
-    type = models.IntegerField(default=1)
+    type = models.IntegerField(choices=EntryTypeChoices.choices,
+                               default=EntryTypeChoices.UNKNOWN)
+
     name = models.CharField(max_length=60, unique=True)
     description = models.TextField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
@@ -37,36 +48,27 @@ class EntryCategory(models.Model):
 
 
 class BaseEntry(models.Model):
-    class EntryTypeChoices(models.IntegerChoices):
-        UNKNOWN = 1, 'Unknown'
-        NOTE = 2, 'Note'
-        CALL = 3, 'Phone call'
-        EMAIL = 4, 'Email'
-        SMS = 5, 'SMS'
-        DOC = 6, "Document"
-        OTHER = 7, "Other"
-
-    class EntryIoChoices(models.TextChoices):
-        OTHER = "OTH", "Other"
-        IN = 'IN', "Incoming"
-        OUT = 'OUT', "Outgoing"
-        UNKNOWN = "UNK", 'Unknown'
-
-    class EntryStatusChoices(models.TextChoices):
-        NEW = "N", "New"
-        UNKNOWN = "U", "Unknown"
-        DRAFT = "D", "Draft"
-        SENT = "S", "Sent"
-        PROCESSED = "P", "Processed"
-
-    class EntrySourceChoices(models.TextChoices):
-        UNKNOWN = "UNK", "Unknown"
-        DELIVERED = "DELIVERED", "Received by Mail or Delivery"
-        EMAIL = 'EMAIL', 'Email'
-        SMS = 'SMS', 'SMS'
-        FAX = 'FAX", "Fax"'
-        PHONE = "CALL", "Phone call"
-        OTHER = "OTH", "Other"
+    # class EntryIoChoices(models.TextChoices):
+    #     OTHER = "OTH", "Other"
+    #     IN = 'IN', "Incoming"
+    #     OUT = 'OUT', "Outgoing"
+    #     UNKNOWN = "UNK", 'Unknown'
+    #
+    # class EntryStatusChoices(models.TextChoices):
+    #     NEW = "N", "New"
+    #     UNKNOWN = "U", "Unknown"
+    #     DRAFT = "D", "Draft"
+    #     SENT = "S", "Sent"
+    #     PROCESSED = "P", "Processed"
+    #
+    # class EntrySourceChoices(models.TextChoices):
+    #     UNKNOWN = "UNK", "Unknown"
+    #     DELIVERED = "DELIVERED", "Received by Mail or Delivery"
+    #     EMAIL = 'EMAIL', 'Email'
+    #     SMS = 'SMS', 'SMS'
+    #     FAX = 'FAX", "Fax"'
+    #     PHONE = "CALL", "Phone call"
+    #     OTHER = "OTH", "Other"
 
     #  class Sender    ("other", "Other"),
     #     ("unk", "unknown"),
@@ -83,10 +85,7 @@ class BaseEntry(models.Model):
     # )
 
     id = models.BigAutoField
-    type = models.IntegerField(choices=EntryTypeChoices.choices,
-                               default=EntryTypeChoices.UNKNOWN)
     title = models.CharField(max_length=60)
-    description = models.CharField(max_length=100, null=True, blank=True)
     category = models.ForeignKey('entries.EntryCategory',
                                  null=True,
                                  blank=True,
@@ -102,6 +101,7 @@ class BaseEntry(models.Model):
                               choices=EntryStatusChoices.choices,
                               default="NEW"
                               )
+    description = models.CharField(max_length=100, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     tags = TaggableManager()
     # originator_type = models.CharField(max_length=20, choices=Entry)
@@ -129,12 +129,13 @@ class BaseEntry(models.Model):
     deleted = models.BooleanField(default=True)
     created_by = models.ForeignKey(USER_MODEL,
                                    on_delete=models.CASCADE,
-                                   related_name='%(class)s_notes_created'
+                                   related_name='%(class)s_notes_created',
+                                   default=2
                                    )
     modified = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return "{0}:{1}".format(self.type, self.title)
+        return self.title + "(Entry)"
 
     class Meta:
         app_label = 'entries'
