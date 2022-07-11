@@ -78,7 +78,7 @@ class LockedAtomicTransaction(Atomic):
 #         # Prevents (at the database level) creation of two lists with the same slug in the same group
 #         unique_together = ("group", "slug")  # TODO: also need to make matter list unique as well
 
-class TaskType(models.Model):
+class TaskCategory(models.Model):
     id = models.BigAutoField
     name = models.CharField(max_length=150, unique=True)
     description = models.TextField(null=True, blank=True)
@@ -86,7 +86,7 @@ class TaskType(models.Model):
     created_by = models.ForeignKey(
         USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="user_tasktypes"
+        related_name="user_task_categories"
     )
     modified = models.DateTimeField(auto_now_add=True)
 
@@ -95,14 +95,27 @@ class TaskType(models.Model):
 
     class Meta:
         app_label = 'todos'
+        verbose_name_plural = "task categories"
 
 
 class Task(models.Model):
+    class TaskType(models.IntegerChoices):
+        UNKNOWN = 1, 'Unknown'
+        CALL = 2, 'Call'
+        WAIT = 3, 'Wait'
+        EMAIL = 4, "Email"
+        DRAFT = 5, 'Draft'
+        REVIEW = 6, 'Review'
+        UPLOAD = 7, "Upload"
+        OTHER = 8, 'Other'
+
     title = models.CharField(max_length=140, unique=True)
-    type = models.ForeignKey(TaskType,
-                             default=1,
-                             on_delete=models.CASCADE,
-                             related_name="types_tasks")
+    type = models.IntegerField(choices=TaskType.choices,
+                               default=TaskType.UNKNOWN)
+    category = models.ForeignKey('TaskCategory',
+                                 default=1,
+                                 on_delete=models.CASCADE,
+                                 related_name="category_tasks")
     matter = models.ForeignKey(Matter,
                                on_delete=models.CASCADE,
                                null=True

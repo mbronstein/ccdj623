@@ -5,7 +5,7 @@ import datetime
 from django.contrib import admin
 from django.http import HttpResponse
 
-from .models import Attachment, Comment, Task, TaskType
+from .models import Attachment, Comment, Task, TaskCategory
 from matters.models import Matter
 
 
@@ -34,31 +34,29 @@ from matters.models import Matter
 #
 #
 # export_to_csv.short_description = "Export to CSV"
-class TaskTypeAdmin(admin.ModelAdmin):
+#
+@admin.register(TaskCategory)
+class TaskCategoryAdmin(admin.ModelAdmin):
     list_display = ["name", 'description', 'id']
     ordering = ["name"]
     search_fields = ["name", "description"]
 
+
+@admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ("title", "type", "matter", "priority", "due_date", "assigned_to", "completed")
-    list_filter = ("matter", "type", "assigned_to")
+    list_display = ["title", "category", "matter", "priority", "due_date", "assigned_to", "completed"]
+    list_filter = ["matter",  "assigned_to", "category"]
     ordering = ["priority", "due_date"]
     search_fields = ["title"]
     # actions = [export_to_csv]
 
 
+@admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ("author", "date", "snippet")
 
 
+@admin.register(Attachment)
 class AttachmentAdmin(admin.ModelAdmin):
     list_display = ("task", "added_by", "timestamp", "file")
     autocomplete_fields = ["added_by", "task"]
-
-
-# admin.site.register(TaskList)
-admin.site.register(Task, TaskAdmin)
-admin.site.register(TaskType, TaskTypeAdmin)
-admin.site.register(Comment, CommentAdmin)
-
-admin.site.register(Attachment, AttachmentAdmin)

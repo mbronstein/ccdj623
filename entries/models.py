@@ -1,9 +1,10 @@
-# ccdj623/matters/models/models.py
+# ccdj623/entries/models/models.py
+#
 from django.contrib.auth import get_user_model
-from django.db.models import Choices
-from django.utils import timezone
-# from django_mailbox.models import Message as EmailMessage
-# from wip.matters.models import BaseMatter, Choices
+# from django.db.models import Choices
+# from django.utils import timezone
+# # from django_mailbox.models import Message as EmailMessage
+# # from wip.matters.models import BaseMatter, Choices
 from django.db import models
 from django.conf import settings
 import uuid
@@ -23,7 +24,7 @@ class EntryCategory(models.Model):
     notes = models.TextField(null=True, blank=True)
     created_by = models.ForeignKey(USER_MODEL,
                                    on_delete=models.CASCADE,
-                                   related_name="user_entry_types"
+                                   related_name="user_entry_categories"
                                    )
     modified = models.DateTimeField(auto_now_add=True)
 
@@ -32,6 +33,7 @@ class EntryCategory(models.Model):
 
     class Meta:
         app_label = 'entries'
+        verbose_name_plural = "entry categories"
 
 
 class BaseEntry(models.Model):
@@ -51,11 +53,11 @@ class BaseEntry(models.Model):
         UNKNOWN = "UNK", 'Unknown'
 
     class EntryStatusChoices(models.TextChoices):
-        NEW = "NEW", "New"
-        UNKNOWN = "UNK", "Unknown"
-        DRAFT = "DRAFT", "Draft"
-        SENT = "SENT", "Sent"
-        PROCESSED = "PROCESSED", "Processed"
+        NEW = "N", "New"
+        UNKNOWN = "U", "Unknown"
+        DRAFT = "D", "Draft"
+        SENT = "S", "Sent"
+        PROCESSED = "P", "Processed"
 
     class EntrySourceChoices(models.TextChoices):
         UNKNOWN = "UNK", "Unknown"
@@ -86,7 +88,8 @@ class BaseEntry(models.Model):
     title = models.CharField(max_length=60)
     description = models.CharField(max_length=100, null=True, blank=True)
     category = models.ForeignKey('entries.EntryCategory',
-                                 default=EntryTypeChoices.UNKNOWN,
+                                 null=True,
+                                 blank=True,
                                  on_delete=models.CASCADE,
                                  related_name='%(class)s_categories'
                                  )
@@ -119,7 +122,7 @@ class BaseEntry(models.Model):
     # billed_time = models.DecimalField(default=0, max_digits=5, decimal_places=2)
     # billing_label = models.CharField(max_length=80, null=True, blank=True)
 
-    user = models.ForeignKey(settings.AUTHUSER_MODEL,
+    user = models.ForeignKey(USER_MODEL,
                              on_delete=models.CASCADE,
                              related_name='%(class)s_users'
                              )
@@ -135,7 +138,7 @@ class BaseEntry(models.Model):
 
     class Meta:
         app_label = 'entries'
-        verbose_name = 'entries'
+        verbose_name_plural = 'entries'
 
     objects = InheritanceManager()
 
@@ -150,6 +153,10 @@ class NoteEntry(BaseEntry):
         super().__init__(self, *args, **kwargs)
         self.type = self.EntryTypeChoices.NOTE
 
+    class Meta:
+        app_label = 'entries'
+        verbose_name_plural = 'note entries'
+
 
 class CallEntry(BaseEntry):
 
@@ -157,13 +164,19 @@ class CallEntry(BaseEntry):
         super().__init__(self, *args, **kwargs)
         self.type = self.EntryTypeChoices.CALL
 
+    class Meta:
+        app_label = 'entries'
+        verbose_name_plural = 'call entries'
+
 
 class TimeEntry(BaseEntry):
     def __init__(self, *args, **kwargs):
         super().__init__(self, *args, **kwargs)
         self.type = self.EntryTypeChoices.TIME
 
-    objects = InheritanceManager()
+    class Meta:
+        app_label = 'entries'
+        verbose_name_plural = 'time entries'
 
 
 class ExpenseEntry(BaseEntry):
@@ -171,13 +184,19 @@ class ExpenseEntry(BaseEntry):
         super().__init__(self, *args, **kwargs)
         self.type = self.EntryTypeChoices.TIME
 
-#
-# class EmailEntry(BaseEntry):
-#     def __init__(self):
-#         super().__init__()
-#         self.type = "TIME"
-#
-#     objects = InheritanceManager()
+    class Meta:
+        app_label = 'entries'
+        verbose_name_plural = 'expense entries'
+
+
+class EmailEntry(BaseEntry):
+    def __init__(self):
+        super().__init__()
+        self.type = "TIME"
+
+    class Meta:
+        app_label = 'entries'
+        verbose_name_plural = 'emails'
 #
 # class CallEntry(BaseEntry):
 #     phonenumber = PhoneNumberField()

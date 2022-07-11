@@ -11,15 +11,14 @@ from matters.models import Matter
 USER_MODEL = get_user_model()
 
 
-class EventType(models.Model):
-
+class EventCategory(models.Model):
     name = models.CharField(max_length=150)
     description = models.TextField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     created_by = models.ForeignKey(
         USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="user_eventtypes"
+        related_name="user_event_categories"
     )
     modified = models.DateTimeField(auto_now_add=True)
 
@@ -28,19 +27,21 @@ class EventType(models.Model):
 
     class Meta:
         app_label = 'events'
+        verbose_name_plural = "event categories"
 
 
 class Event(models.Model):
-    # class EventType(models.TextChoices):
-    #     CALL = 'CALL', 'Call'
-    #     CONF = 'CONF', 'Conference'
-    #     DEADLINE = 'DEAD', "Deadline"
-    #     VIDEO = 'VID', 'Video Conf'
-    #     SS_HEARING = 'OHO_HEAR', 'OHO Hearing'
-    #     MEET = 'MEET', "Meeting"
-    #     PRESENTATION = 'PRES', "Presentation"
-    #     OTHER = 'OTHER', 'Other'
-    #     WARNING = 'WARN', 'Deadline Warning'
+    class EventType(models.IntegerChoices):
+        UNKNOWN = 1, 'Unknown'
+        CALL = 2, 'Call'
+        CONF = 3, 'Conference'
+        DEADLINE = 4, "Deadline"
+        VIDEO = 5, 'Video Conf'
+        SS_HEARING = 6, 'OHO Hearing'
+        MEET = 7, "Meeting"
+        PRESENTATION = 8, "Presentation"
+        OTHER = 9, 'Other'
+        WARNING = 10, 'Deadline Warning'
 
     # class StatusType(models.TextChoices):
     #     SCHEDULED = 'SCHED', 'Scheduled'
@@ -55,13 +56,13 @@ class Event(models.Model):
     #     OFFICE = "office", "Office"
     #     CALL = "call", "Call"
     #
-
+    type = models.IntegerField(choices=EventType.choices, default=1)
     title = models.CharField(max_length=140)
-    type = models.ForeignKey('EventType',
-                             null=True,
-                             on_delete=models.CASCADE,
-                             related_name="event_eventtypes",
-                             )
+    category = models.ForeignKey('Event',
+                                 null=True,
+                                 on_delete=models.CASCADE,
+                                 related_name="event_event_categories",
+                                 )
     matter = models.ForeignKey('matters.Matter',
                                on_delete=models.CASCADE,
                                null=True,
