@@ -4,11 +4,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 # from django.utils import timezone
-# # from django_mailbox.models import Message as EmailMessage
-# # from wip.matters.models import BaseMatter, Choices
 
-from django.conf import settings
-import uuid
 from taggit.managers import TaggableManager
 from phonenumber_field.modelfields import PhoneNumberField
 from matters.models import Matter
@@ -48,7 +44,7 @@ class EntryCategory(models.Model):
         verbose_name_plural = "entry categories"
 
 
-# class BaseEntry(models.Model):
+class BaseEntry(models.Model):
     # class EntryIoChoices(models.TextChoices):
     #     OTHER = "OTH", "Other"
     #     IN = 'IN', "Incoming"
@@ -85,26 +81,34 @@ class EntryCategory(models.Model):
     #     ("insco", "Ins Co"),
     # )
 
-    # id = models.BigAutoField
-    # title = models.CharField(max_length=60)
-    # category = models.ForeignKey('entries.EntryCategory',
-    #                              null=True,
-    #                              blank=True,
-    #                              on_delete=models.CASCADE,
-    #                              related_name='%(class)s_categories'
-    #                              )
-    # matter = models.ForeignKey("matters.Matter",
-    #                            on_delete=models.CASCADE,
-    #                            null=True,
-    #                            related_name='%(class)s_matters',
-    #                            )
+    id = models.BigAutoField
+    title = models.CharField(max_length=60)
+    category = models.ForeignKey('entries.EntryCategory',
+                                 null=True,
+                                 blank=True,
+                                 on_delete=models.CASCADE,
+                                 related_name='%(class)s_categories'
+                                 )
+    matter = models.ForeignKey("matters.Matter",
+                               on_delete=models.CASCADE,
+                               null=True,
+                               related_name='%(class)s_matters',
+                               )
+
+    description = models.CharField(max_length=100, null=True, blank=True)
+    notes = models.TextField(null=True, blank=True)
+    tags = TaggableManager()
+
+    class Meta:
+        app_label = 'entries'
+        verbose_name_plural = 'entries'
+
+    objects = InheritanceManager()
+
     # status = models.CharField(max_length=20,
     #                           choices=EntryStatusChoices.choices,
     #                           default="NEW"
     #                           )
-    # description = models.CharField(max_length=100, null=True, blank=True)
-    # notes = models.TextField(null=True, blank=True)
-    # tags = TaggableManager()
     # originator_type = models.CharField(max_length=20, choices=Entry)
     # recipient_type = models.CharField(max_length=20, choices=CategoryChoices)
     # originator = models.CharField(max_length=80, default="unk")
@@ -148,39 +152,61 @@ class EntryCategory(models.Model):
     # # enddate = models.DateTimeField(default=timezone.now)
     # # duration = models.DecimalField(default=0, max_digits=5, decimal_places=2)
 
-#
-# class NoteEntry(BaseEntry):
-#
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(self, *args, **kwargs)
-#         self.type = self.EntryTypeChoices.NOTE
-#
-#     class Meta:
-#         app_label = 'entries'
-#         verbose_name_plural = 'note entries'
-#
-#
-# class CallEntry(BaseEntry):
-#
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(self, *args, **kwargs)
-#         self.type = self.EntryTypeChoices.CALL
-#
-#     class Meta:
-#         app_label = 'entries'
-#         verbose_name_plural = 'call entries'
-#
+
+class NoteEntry(BaseEntry):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(self, *args, **kwargs)
+        self.category = 2 # generic note
+
+    class Meta:
+        app_label = 'entries'
+        verbose_name_plural = 'note entries'
+
+
+class CallEntry(BaseEntry):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(self, *args, **kwargs)
+        self.category = 3 # generic call
+
+    class Meta:
+        app_label = 'entries'
+        verbose_name_plural = 'call entries'
+
+
+class DocEntry(BaseEntry):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(self, *args, **kwargs)
+        self.category = 6 # generic document
+
+    class Meta:
+        app_label = 'entries'
+        verbose_name_plural = 'doc entries'
+
+class SmsEntry(BaseEntry):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(self, *args, **kwargs)
+        self.category = 5 # generic sms
+
+    class Meta:
+        app_label = 'entries'
+        verbose_name_plural = 'sms entries'
+
 #
 # class TimeEntry(BaseEntry):
 #     def __init__(self, *args, **kwargs):
 #         super().__init__(self, *args, **kwargs)
-#         self.type = self.EntryTypeChoices.TIME
+#         self.category = 3 # generic call
+#
 #
 #     class Meta:
 #         app_label = 'entries'
 #         verbose_name_plural = 'time entries'
 #
-#
+# #
 # class ExpenseEntry(BaseEntry):
 #     def __init__(self, *args, **kwargs):
 #         super().__init__(self, *args, **kwargs)
