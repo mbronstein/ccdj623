@@ -201,6 +201,8 @@ class SmsEntry(BaseEntry):
 
 class DictationEntry(BaseEntry):
     audio = models.BinaryField(null=True)
+    audiofile = models.FileField(null=True,
+                                 upload_to="??")
 
     def __init__(self, *args, **kwargs):
         super().__init__(self, *args, **kwargs)
@@ -213,6 +215,8 @@ class DictationEntry(BaseEntry):
 
 class VoicemailEntry(BaseEntry):
     audio = models.BinaryField(null=True)
+    audiofile = models.FileField(null=True,
+                                 upload_to="??")
 
     def __init__(self, *args, **kwargs):
         super().__init__(self, *args, **kwargs)
