@@ -97,7 +97,7 @@ class BaseEntry(models.Model):
 
     description = models.CharField(max_length=100, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
-    tags = TaggableManager()
+    tags = TaggableManager(blank=True)
 
     class Meta:
         app_label = 'entries'

@@ -4,7 +4,7 @@ from events.models import Event, EventCategory
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    list_display = ['title',  'category', 'matter', 'startdatetime']
+    list_display = ['title',  'category', 'matter', 'startdatetime', 'length', 'location']
     list_filter = ["matter", 'category']
     ordering = ["startdatetime"]
     search_fields = ["title"]
