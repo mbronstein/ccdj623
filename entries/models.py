@@ -22,6 +22,8 @@ class EntryCategory(models.Model):
         SMS = 5, 'SMS'
         DOC = 6, "Document"
         OTHER = 7, "Other"
+        VOICEMAIL = 8, 'Voicemail'
+        DICTATION = 9, 'Dictation'
 
     id = models.BigAutoField
     type = models.IntegerField(choices=EntryTypeChoices.choices,
@@ -156,7 +158,7 @@ class BaseEntry(models.Model):
 class NoteEntry(BaseEntry):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(self, * args, **kwargs)
+        super().__init__(self, *args, **kwargs)
         category = EntryCategory.objects.get(pk=2)
 
     class Meta:
@@ -180,6 +182,7 @@ class DocEntry(BaseEntry):
     def __init__(self, *args, **kwargs):
         super().__init__(self, *args, **kwargs)
         category = EntryCategory.objects.get(pk=6)
+
     class Meta:
         app_label = 'entries'
         verbose_name_plural = 'doc entries'
@@ -194,6 +197,30 @@ class SmsEntry(BaseEntry):
     class Meta:
         app_label = 'entries'
         verbose_name_plural = 'sms entries'
+
+
+class DictationEntry(BaseEntry):
+    audio = models.BinaryField(null=True)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(self, *args, **kwargs)
+        category = EntryCategory.objects.get(pk=8)
+
+    class Meta:
+        app_label = 'entries'
+        verbose_name_plural = 'dictations'
+
+
+class VoicemailEntry(BaseEntry):
+    audio = models.BinaryField(null=True)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(self, *args, **kwargs)
+        category = EntryCategory.objects.get(pk=9)
+
+    class Meta:
+        app_label = 'entries'
+        verbose_name_plural = 'voicemails'
 
 #
 # class TimeEntry(BaseEntry):

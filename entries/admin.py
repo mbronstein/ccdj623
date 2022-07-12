@@ -1,4 +1,4 @@
-from .models import EntryCategory, BaseEntry, NoteEntry, CallEntry, DocEntry, SmsEntry
+from .models import EntryCategory, BaseEntry, NoteEntry, CallEntry, DocEntry, SmsEntry, VoicemailEntry, DictationEntry
 from django.contrib import admin
 
 
@@ -6,10 +6,6 @@ from django.contrib import admin
 class EntryCategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'type', 'description', 'id']
 
-#
-# @admin.register(BaseEntry)
-# class BaseEntryAdmin(admin.ModelAdmin):
-#     list_display = ['title', 'category', 'matter']
 
 
 @admin.register(NoteEntry)
@@ -22,11 +18,21 @@ class CallEntryAdmin(admin.ModelAdmin):
     list_display = ['title', 'category', 'description']
 
 
-@admin.register(SmsEntry)
-class SmsEntryAdmin(admin.ModelAdmin):
+@admin.register(VoicemailEntry)
+class VoicemailEntryAdmin(admin.ModelAdmin):
+    list_display = ['title', 'category', 'description']
+
+
+@admin.register(DictationEntry)
+class DictationEntryAdmin(admin.ModelAdmin):
     list_display = ['title', 'category', 'description']
 
 
 @admin.register(DocEntry)
 class DocEntryAdmin(admin.ModelAdmin):
+    list_display = ['title', 'category', 'description']
+
+
+@admin.register(SmsEntry)
+class SmsEntryAdmin(admin.ModelAdmin):
     list_display = ['title', 'category', 'description']
