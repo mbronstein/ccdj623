@@ -5,9 +5,6 @@ from django.db.transaction import Atomic, get_connection
 from django.urls import reverse
 from django.utils import timezone
 
-import matters.models
-from matters.models import Matter
-
 USER_MODEL = get_user_model()
 
 
@@ -59,7 +56,7 @@ class Event(models.Model):
     #     CALL = "call", "Call"
     #
     title = models.CharField(max_length=140)
-    category = models.ForeignKey('Event',
+    category = models.ForeignKey('EventCategory',
                                  null=True,
                                  on_delete=models.CASCADE,
                                  related_name="event_event_categories",

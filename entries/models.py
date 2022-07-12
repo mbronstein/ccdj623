@@ -156,8 +156,8 @@ class BaseEntry(models.Model):
 class NoteEntry(BaseEntry):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(self, *args, **kwargs)
-        self.category = 2 # generic note
+        super().__init__(self, * args, **kwargs)
+        category = EntryCategory.objects.get(pk=2)
 
     class Meta:
         app_label = 'entries'
@@ -168,7 +168,7 @@ class CallEntry(BaseEntry):
 
     def __init__(self, *args, **kwargs):
         super().__init__(self, *args, **kwargs)
-        self.category = 3 # generic call
+        category = EntryCategory.objects.get(pk=3)
 
     class Meta:
         app_label = 'entries'
@@ -179,17 +179,17 @@ class DocEntry(BaseEntry):
 
     def __init__(self, *args, **kwargs):
         super().__init__(self, *args, **kwargs)
-        self.category = 6 # generic document
-
+        category = EntryCategory.objects.get(pk=6)
     class Meta:
         app_label = 'entries'
         verbose_name_plural = 'doc entries'
+
 
 class SmsEntry(BaseEntry):
 
     def __init__(self, *args, **kwargs):
         super().__init__(self, *args, **kwargs)
-        self.category = 5 # generic sms
+        category = EntryCategory.objects.get(pk=5)
 
     class Meta:
         app_label = 'entries'

@@ -11,4 +11,3 @@ django-taggit
 django-ninja
 datetime~=4.5
 django-model-utils~=4.2.0
-ninja~=1.10.2.3

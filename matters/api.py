@@ -1,4 +1,4 @@
-from ninja import Router
+from ninja.main import Router
 from .models import Matter
 
 router = Router()

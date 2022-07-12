@@ -6,10 +6,10 @@ from django.contrib import admin
 class EntryCategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'type', 'description', 'id']
 
-
-@admin.register(BaseEntry)
-class BaseEntryAdmin(admin.ModelAdmin):
-    list_display = ['title', 'category', 'matter']
+#
+# @admin.register(BaseEntry)
+# class BaseEntryAdmin(admin.ModelAdmin):
+#     list_display = ['title', 'category', 'matter']
 
 
 @admin.register(NoteEntry)
