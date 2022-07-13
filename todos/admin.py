@@ -44,8 +44,8 @@ class TaskCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ["title", "category", "matter", "priority", "due_date", "assigned_to", "completed"]
-    list_filter = ["matter",  "assigned_to", "category"]
+    # list_display = ["title", "category", "matter", "priority", "due_date", "assigned_to", "completed"]
+    # list_filter = ["matter",  "assigned_to", "category"]
     ordering = ["priority", "due_date"]
     search_fields = ["title"]
     # actions = [export_to_csv]

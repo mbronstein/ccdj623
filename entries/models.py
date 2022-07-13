@@ -2,13 +2,15 @@
 #
 from django.contrib.auth import get_user_model
 from django.db import models
-
+import django.utils.timezone
 # from django.utils import timezone
 
 from taggit.managers import TaggableManager
 from phonenumber_field.modelfields import PhoneNumberField
 from matters.models import Matter
 from model_utils.managers import InheritanceManager
+
+from django.utils import timezone
 
 USER_MODEL = get_user_model()
 
@@ -17,7 +19,7 @@ class EntryCategory(models.Model):
     class EntryTypeChoices(models.IntegerChoices):
         UNKNOWN = 1, 'Unknown'
         NOTE = 2, 'Note'
-        CALL = 3, 'Phone call'
+        CALL = 3, 'Call'
         EMAIL = 4, 'Email'
         SMS = 5, 'SMS'
         DOC = 6, "Document"
@@ -84,6 +86,7 @@ class BaseEntry(models.Model):
     # )
 
     id = models.BigAutoField
+    datetime = models.DateTimeField(default=timezone.now, blank=True)
     title = models.CharField(max_length=60)
     category = models.ForeignKey('entries.EntryCategory',
                                  null=True,
@@ -100,12 +103,25 @@ class BaseEntry(models.Model):
     description = models.CharField(max_length=100, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     tags = TaggableManager(blank=True)
+    timespent = models.DecimalField(default=0, decimal_places=1, max_digits=3)
+    created_by = models.ForeignKey(USER_MODEL,
+                                   on_delete=models.CASCADE,
+                                   related_name="user_entries"
+                                   )
+    modified = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         app_label = 'entries'
         verbose_name_plural = 'entries'
 
-    objects = InheritanceManager()
+    def __str__(self):
+        return f"{self.datetime}:{self.matter.name}:{self.title}"
+
+    def save(self, *args, **kwargs):
+        self.modified = timezone.now()
+        super().save(*args, **kwargs)
+
+    # objects = InheritanceManager()
 
     # status = models.CharField(max_length=20,
     #                           choices=EntryStatusChoices.choices,
@@ -155,78 +171,78 @@ class BaseEntry(models.Model):
     # # duration = models.DecimalField(default=0, max_digits=5, decimal_places=2)
 
 
-class NoteEntry(BaseEntry):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(self, *args, **kwargs)
-        category = EntryCategory.objects.get(pk=2)
-
-    class Meta:
-        app_label = 'entries'
-        verbose_name_plural = 'note entries'
-
-
 class CallEntry(BaseEntry):
 
     def __init__(self, *args, **kwargs):
         super().__init__(self, *args, **kwargs)
-        category = EntryCategory.objects.get(pk=3)
 
     class Meta:
         app_label = 'entries'
         verbose_name_plural = 'call entries'
 
-
-class DocEntry(BaseEntry):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(self, *args, **kwargs)
-        category = EntryCategory.objects.get(pk=6)
-
-    class Meta:
-        app_label = 'entries'
-        verbose_name_plural = 'doc entries'
-
-
-class SmsEntry(BaseEntry):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(self, *args, **kwargs)
-        category = EntryCategory.objects.get(pk=5)
-
-    class Meta:
-        app_label = 'entries'
-        verbose_name_plural = 'sms entries'
-
-
-class DictationEntry(BaseEntry):
-    audio = models.BinaryField(null=True)
-    audiofile = models.FileField(null=True,
-                                 upload_to="??")
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(self, *args, **kwargs)
-        category = EntryCategory.objects.get(pk=8)
-
-    class Meta:
-        app_label = 'entries'
-        verbose_name_plural = 'dictations'
-
-
-class VoicemailEntry(BaseEntry):
-    audio = models.BinaryField(null=True)
-    audiofile = models.FileField(null=True,
-                                 upload_to="??")
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(self, *args, **kwargs)
-        category = EntryCategory.objects.get(pk=9)
-
-    class Meta:
-        app_label = 'entries'
-        verbose_name_plural = 'voicemails'
-
+# class NoteEntry(BaseEntry):
 #
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(self, *args, **kwargs)
+#         # category = EntryCategory.objects.get(pk=2)
+#
+#     class Meta:
+#         app_label = 'entries'
+#         verbose_name_plural = 'note entries'
+#
+#
+#
+#
+# class DocEntry(BaseEntry):
+#
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(self, *args, **kwargs)
+#         # category = EntryCategory.objects.get(pk=6)
+#
+#     class Meta:
+#         app_label = 'entries'
+#         verbose_name_plural = 'doc entries'
+#
+#
+# class SmsEntry(BaseEntry):
+#
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(self, *args, **kwargs)
+#         # category = EntryCategory.objects.get(pk=5)
+#
+#     class Meta:
+#         app_label = 'entries'
+#         verbose_name_plural = 'sms entries'
+#
+#
+# class DictationEntry(BaseEntry):
+#     audio = models.BinaryField(null=True)
+#     audiofile = models.FileField(null=True,
+#                                  upload_to="??")
+#
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(self, *args, **kwargs)
+#         # category = EntryCategory.objects.get(pk=8)
+#
+#     class Meta:
+#         app_label = 'entries'
+#         verbose_name_plural = 'dictations'
+#
+#
+# class VoicemailEntry(BaseEntry):
+#     audio = models.BinaryField(null=True)
+#     audiofile = models.FileField(null=True,
+#                                  upload_to="??")
+#
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(self, *args, **kwargs)
+#         # category = EntryCategory.objects.get(pk=9)
+#
+#     class Meta:
+#         app_label = 'entries'
+#         verbose_name_plural = 'voicemails'
+#
+# #
 # class TimeEntry(BaseEntry):
 #     def __init__(self, *args, **kwargs):
 #         super().__init__(self, *args, **kwargs)
