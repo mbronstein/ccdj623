@@ -26,12 +26,15 @@ DEBUG = env.bool("DEBUG", True)
 DEBUG_TOOLBAR = env.bool("DEBUG_TOOLBAR", True)
 SILK = env.bool("SILK", False)
 
-TIME_ZONE = 'UTC'
-LANGUAGE_CODE = "en-us"
+TIME_ZONE = 'America/New_York'
+USE_TZ = True
+
 SITE_ID = 1
+
+LANGUAGE_CODE = "en-us"
 USE_I18N = False
 USE_L10N = False
-USE_TZ = True
+
 
 LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 
@@ -93,9 +96,9 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "matters.apps.MattersConfig",
-    "todos.apps.TodosConfig",
+    # "tasks.apps.TasksConfig",
     "events.apps.EventsConfig",
-    "entries.apps.EntriesConfig",
+    # "case_entries.apps.EntriesConfig",
 
     # "apps.ssoffices.apps.SsofficesConfig"
 

@@ -30,25 +30,28 @@ class EntryCategory(models.Model):
     id = models.BigAutoField
     type = models.IntegerField(choices=EntryTypeChoices.choices,
                                default=EntryTypeChoices.UNKNOWN)
-
-    name = models.CharField(max_length=60, unique=True)
-    description = models.TextField(null=True, blank=True)
+    name = models.CharField(max_length=40,
+                            unique=True)
+    description = models.CharField(max_length=80,
+                                   null=True,
+                                   blank=True)
     notes = models.TextField(null=True, blank=True)
     created_by = models.ForeignKey(USER_MODEL,
                                    on_delete=models.CASCADE,
-                                   related_name="user_entry_categories"
+                                   related_name="user_case_entries"
                                    )
-    modified = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(null=True,
+                                    blank=True)
 
     def __str__(self):
-        return self.name
+        return f" {self.name}({self.category.name})"
 
     class Meta:
         app_label = 'entries'
         verbose_name_plural = "entry categories"
 
 
-class BaseEntry(models.Model):
+class CaseEntry(models.Model):
     # class EntryIoChoices(models.TextChoices):
     #     OTHER = "OTH", "Other"
     #     IN = 'IN', "Incoming"
@@ -88,7 +91,7 @@ class BaseEntry(models.Model):
     id = models.BigAutoField
     datetime = models.DateTimeField(default=timezone.now, blank=True)
     title = models.CharField(max_length=60)
-    category = models.ForeignKey('entries.EntryCategory',
+    category = models.ForeignKey('case_entries.EntryCategory',
                                  null=True,
                                  blank=True,
                                  on_delete=models.CASCADE,
@@ -97,7 +100,7 @@ class BaseEntry(models.Model):
     matter = models.ForeignKey("matters.Matter",
                                on_delete=models.CASCADE,
                                null=True,
-                               related_name='%(class)s_matters',
+                               related_name='user_matters',
                                )
 
     description = models.CharField(max_length=100, null=True, blank=True)
@@ -106,13 +109,14 @@ class BaseEntry(models.Model):
     timespent = models.DecimalField(default=0, decimal_places=1, max_digits=3)
     created_by = models.ForeignKey(USER_MODEL,
                                    on_delete=models.CASCADE,
-                                   related_name="user_entries"
+                                   related_name="user_case_entries"
                                    )
     modified = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        app_label = 'entries'
-        verbose_name_plural = 'entries'
+        app_label = 'case entries'
+        verbose_name = 'case entry'
+        verbose_name_plural = 'case entries'
 
     def __str__(self):
         return f"{self.datetime}:{self.matter.name}:{self.title}"
@@ -170,123 +174,8 @@ class BaseEntry(models.Model):
     # # enddate = models.DateTimeField(default=timezone.now)
     # # duration = models.DecimalField(default=0, max_digits=5, decimal_places=2)
 
-
-class CallEntry(BaseEntry):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(self, *args, **kwargs)
-
-    class Meta:
-        app_label = 'entries'
-        verbose_name_plural = 'call entries'
-
-# class NoteEntry(BaseEntry):
 #
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(self, *args, **kwargs)
-#         # category = EntryCategory.objects.get(pk=2)
-#
-#     class Meta:
-#         app_label = 'entries'
-#         verbose_name_plural = 'note entries'
-#
-#
-#
-#
-# class DocEntry(BaseEntry):
-#
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(self, *args, **kwargs)
-#         # category = EntryCategory.objects.get(pk=6)
-#
-#     class Meta:
-#         app_label = 'entries'
-#         verbose_name_plural = 'doc entries'
-#
-#
-# class SmsEntry(BaseEntry):
-#
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(self, *args, **kwargs)
-#         # category = EntryCategory.objects.get(pk=5)
-#
-#     class Meta:
-#         app_label = 'entries'
-#         verbose_name_plural = 'sms entries'
-#
-#
-# class DictationEntry(BaseEntry):
-#     audio = models.BinaryField(null=True)
-#     audiofile = models.FileField(null=True,
-#                                  upload_to="??")
-#
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(self, *args, **kwargs)
-#         # category = EntryCategory.objects.get(pk=8)
-#
-#     class Meta:
-#         app_label = 'entries'
-#         verbose_name_plural = 'dictations'
-#
-#
-# class VoicemailEntry(BaseEntry):
-#     audio = models.BinaryField(null=True)
-#     audiofile = models.FileField(null=True,
-#                                  upload_to="??")
-#
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(self, *args, **kwargs)
-#         # category = EntryCategory.objects.get(pk=9)
-#
-#     class Meta:
-#         app_label = 'entries'
-#         verbose_name_plural = 'voicemails'
-#
-# #
-# class TimeEntry(BaseEntry):
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(self, *args, **kwargs)
-#         self.category = 3 # generic call
-#
-#
-#     class Meta:
-#         app_label = 'entries'
-#         verbose_name_plural = 'time entries'
-#
-# #
-# class ExpenseEntry(BaseEntry):
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(self, *args, **kwargs)
-#         self.type = self.EntryTypeChoices.TIME
-#
-#     class Meta:
-#         app_label = 'entries'
-#         verbose_name_plural = 'expense entries'
-#
-#
-# class EmailEntry(BaseEntry):
-#     def __init__(self):
-#         super().__init__()
-#         self.type = "TIME"
-#
-#     class Meta:
-#         app_label = 'entries'
-#         verbose_name_plural = 'emails'
-#
-# class CallEntry(BaseEntry):
-#     phonenumber = PhoneNumberField()
-#     cid_info = models.CharField(max_length=30, blank=True)
-#     voice_file = models.FileField()
-#
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         self.type = "CALL"
-#
-#     class Meta:
-#         verbose_name_plural = "call_entries"
-#
-#
-# class EmailEntry(BaseEntry):
+# class EmailEntry(CaseEntry):
 #     # Inherited Choice objects:
 #     #   status, category, subcategory, io, inputsource
 #
@@ -312,7 +201,7 @@ class CallEntry(BaseEntry):
 #     # DEFAULT_STATUS = StatusChoices.NEW
 #
 #
-# class SmsEntry(BaseEntry):
+# class SmsEntry(CaseEntry):
 #     # Inherited Choice objects:
 #     #  subcategory, io, inputsource, originatortype, recipienttype
 #
@@ -336,7 +225,7 @@ class CallEntry(BaseEntry):
 #         self.rec_type = "sms"
 #
 #
-# class DocEntry(BaseEntry):
+# class DocEntry(CaseEntry):
 #     # Inherited Choice objects:
 #     #   status, category, subcategory, io, inputsource, originatortype, recipienttype
 #
@@ -377,7 +266,7 @@ class CallEntry(BaseEntry):
 #     #     UNKNOWN = "unk", "Unknown"
 #
 #
-# class EventEntry(BaseEntry):
+# class EventEntry(CaseEntry):
 #     # Inherited Choice objects:
 #     #   status, category, subcategory, io, inputsource, originatortype, recipienttype
 #     class Meta:
@@ -411,7 +300,7 @@ class CallEntry(BaseEntry):
 #     #
 #
 #
-# class NoteEntry(BaseEntry):
+# class NoteEntry(CaseEntry):
 #     class Meta:
 #         verbose_name_plural = "note_entries"
 #
@@ -429,7 +318,7 @@ class CallEntry(BaseEntry):
 #     #     OTHER = "other", "Other"
 #
 #
-# class CaseReviewEntry(BaseEntry):
+# class CaseReviewEntry(CaseEntry):
 #     class Meta:
 #         verbose_name_plural = "case_review_entries"
 #
@@ -437,7 +326,7 @@ class CallEntry(BaseEntry):
 #         super().__init__(*args, **kwargs)
 #
 #
-# class TaskEntry(BaseEntry):
+# class TaskEntry(CaseEntry):
 #     owner = models.ForeignKey(User,
 #                               on_delete=models.CASCADE,
 #                               related_name='owners')

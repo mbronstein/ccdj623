@@ -99,6 +99,12 @@ class Event(models.Model):
     def get_absolute_url(self):
         return reverse("event_detail", kwargs={"event_id": self.id})
 
+    # for admin display
+    def compact_startdatetime(self):
+        return self.startdatetime.strftime("%m/%d/%y %I:%M %p (%a)")
+
+    compact_startdatetime.short_description = 'Date/Time'
+
     class Meta:
         app_label = 'events'
         ordering = ["priority", "created_date"]

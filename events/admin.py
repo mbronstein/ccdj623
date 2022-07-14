@@ -1,14 +1,14 @@
 from django.contrib import admin
 from events.models import Event, EventCategory
+from core import utils as core_utils
 
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    list_display = ['title',  'category', 'matter', 'startdatetime', 'length', 'location']
+    list_display = ['compact_startdatetime', 'title', 'category', 'matter', 'length', 'location']
     list_filter = ["matter", 'category']
     ordering = ["startdatetime"]
     search_fields = ["title"]
-    # actions = [export_to_csv]
 
 
 @admin.register(EventCategory)
