@@ -28,6 +28,8 @@ class TaskCategory(models.Model):
         REVIEW = 6, 'Review'
         UPLOAD = 7, "Send"
         OTHER = 8, 'Other'
+        PAY = 9, 'Pay Bill'
+        BILL = 10, 'Prepare Bill'
 
     id = models.BigAutoField
     type = models.IntegerField(choices=TaskTypeChoices.choices,
@@ -56,12 +58,14 @@ class TaskCategory(models.Model):
 class Task(models.Model):
     title = models.CharField(max_length=80)
     category = models.ForeignKey('tasks.TaskCategory',
-                                 default=TaskCategory.objects.get(pk=1),
+                                 #default=TaskCategory.objects.get(pk=1),
+                                 null=True,
                                  on_delete=models.CASCADE,
                                  related_name="category_tasks")
     matter = models.ForeignKey('matters.Matter',
                                on_delete=models.CASCADE,
-                               null=True
+                               null=True,
+                               related_name='matter_tasks'
                                )
     created_date = models.DateField(default=timezone.now,
                                     )
@@ -73,15 +77,14 @@ class Task(models.Model):
                                       null=True
                                       )
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                   default=2,
                                    related_name="user_created_by",
                                    on_delete=models.CASCADE,
 
                                    )
     assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                    default=1,
-                                    related_name="user_assigned_to",
+                                    related_name="user_task_assignments",
                                     on_delete=models.CASCADE,
+
                                     )
     note = models.TextField(blank=True,
                             null=True,
@@ -89,39 +92,52 @@ class Task(models.Model):
     priority = models.PositiveIntegerField(default=0
                                            )
 
-    # # Has due date for an instance of this object passed?
-    # def overdue_status(self):
-    #     "Returns whether the Tasks's due date has passed or not."
-    #     if self.due_date and datetime.date.today() > self.due_date:
-    #         return True
-    #
-    # def __str__(self):
-    #     return self.title
-    #
-    # def get_absolute_url(self):
-    #     return reverse("todo:task_detail", kwargs={"task_id": self.id})
-    #
-    # # Auto-set the Task creation / completed date
-    # def save(self, **kwargs):
-    #     # If Task is being marked complete, set the completed_date
-    #     if self.completed:
-    #         self.completed_date = datetime.datetime.now()
-    #     super(Task, self).save()
-    #
-    # def merge_into(self, merge_target):
-    #     if merge_target.pk == self.pk:
-    #         raise ValueError("can't merge a task with self")
-    #
-    #     # lock the comments to avoid concurrent additions of comments after the
-    #     # update request. these comments would be irremediably lost because of
-    #     # the cascade clause
-    #     with LockedAtomicTransaction(Comment):
-    #         Comment.objects.filter(task=self).update(task=merge_target)
-    #         self.delete()
+    # for admin display
+    def compact_due_date(self):
+        return self.due_date.strftime("%m/%d/%y (%a)")
+
+    compact_due_date.short_description = 'Due Date'
 
     class Meta:
         app_label = 'tasks'
-        ordering = ["priority", "created_date"]
+        # ordering = ["priority", "created_date"]
+
+    def __str__(self):
+        return f"{self.category} {self.due_date} ({self.matter.name})"
+
+# # Has due date for an instance of this object passed?
+# def overdue_status(self):
+#     "Returns whether the Tasks's due date has passed or not."
+#     if self.due_date and datetime.date.today() > self.due_date:
+#         return True
+#
+# def __str__(self):
+#     return self.title
+#
+# def get_absolute_url(self):
+#     return reverse("task:task_detail", kwargs={"task_id": self.id})
+#
+# # Auto-set the Task creation / completed date
+# def save(self, **kwargs):
+#     # If Task is being marked complete, set the completed_date
+#     if self.completed:
+#         self.completed_date = datetime.datetime.now()
+#     super(Task, self).save()
+#
+# def merge_into(self, merge_target):
+#     if merge_target.pk == self.pk:
+#         raise ValueError("can't merge a task with self")
+#
+#     # lock the comments to avoid concurrent additions of comments after the
+#     # update request. these comments would be irremediably lost because of
+#     # the cascade clause
+#     with LockedAtomicTransaction(Comment):
+#         Comment.objects.filter(task=self).update(task=merge_target)
+#         self.delete()
+#
+# class Meta:
+#     app_label = 'tasks'
+#     ordering = ["priority", "created_date"]
 
 #
 # class Comment(models.Model):
