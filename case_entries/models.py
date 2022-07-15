@@ -44,14 +44,14 @@ class EntryCategory(models.Model):
                                     blank=True)
 
     def __str__(self):
-        return f" {self.name}({self.category.name})"
+        return f" {self.name}"
 
     class Meta:
-        app_label = 'entries'
+        app_label = 'case_entries'
         verbose_name_plural = "entry categories"
 
-
-class CaseEntry(models.Model):
+#
+# class CaseEntry(models.Model):
     # class EntryIoChoices(models.TextChoices):
     #     OTHER = "OTH", "Other"
     #     IN = 'IN', "Incoming"
@@ -87,45 +87,45 @@ class CaseEntry(models.Model):
     #     ("med", "Medical Provider"),
     #     ("insco", "Ins Co"),
     # )
-
-    id = models.BigAutoField
-    datetime = models.DateTimeField(default=timezone.now, blank=True)
-    title = models.CharField(max_length=60)
-    category = models.ForeignKey('case_entries.EntryCategory',
-                                 null=True,
-                                 blank=True,
-                                 on_delete=models.CASCADE,
-                                 related_name='%(class)s_categories'
-                                 )
-    matter = models.ForeignKey("matters.Matter",
-                               on_delete=models.CASCADE,
-                               null=True,
-                               related_name='user_matters',
-                               )
-
-    description = models.CharField(max_length=100, null=True, blank=True)
-    notes = models.TextField(null=True, blank=True)
-    tags = TaggableManager(blank=True)
-    timespent = models.DecimalField(default=0, decimal_places=1, max_digits=3)
-    created_by = models.ForeignKey(USER_MODEL,
-                                   on_delete=models.CASCADE,
-                                   related_name="user_case_entries"
-                                   )
-    modified = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        app_label = 'case entries'
-        verbose_name = 'case entry'
-        verbose_name_plural = 'case entries'
-
-    def __str__(self):
-        return f"{self.datetime}:{self.matter.name}:{self.title}"
-
-    def save(self, *args, **kwargs):
-        self.modified = timezone.now()
-        super().save(*args, **kwargs)
-
-    # objects = InheritanceManager()
+    #
+    # id = models.BigAutoField
+    # datetime = models.DateTimeField(default=timezone.now, blank=True)
+    # title = models.CharField(max_length=60)
+    # category = models.ForeignKey('case_entries.EntryCategory',
+    #                              null=True,
+    #                              blank=True,
+    #                              on_delete=models.CASCADE,
+    #                              related_name='%(class)s_categories'
+    #                              )
+    # matter = models.ForeignKey("matters.Matter",
+    #                            on_delete=models.CASCADE,
+    #                            null=True,
+    #                            related_name='user_matters',
+    #                            )
+    #
+    # description = models.CharField(max_length=100, null=True, blank=True)
+    # notes = models.TextField(null=True, blank=True)
+    # tags = TaggableManager(blank=True)
+    # timespent = models.DecimalField(default=0, decimal_places=1, max_digits=3)
+    # created_by = models.ForeignKey(USER_MODEL,
+    #                                on_delete=models.CASCADE,
+    #                                related_name="user_case_entries"
+    #                                )
+    # modified = models.DateTimeField(auto_now_add=True)
+    #
+    # class Meta:
+    #     app_label = 'case_entries'
+    #     verbose_name = 'case entry'
+    #     verbose_name_plural = 'case entries'
+    #
+    # def __str__(self):
+    #     return f"{self.datetime}:{self.matter.name}:{self.title}"
+    #
+    # def save(self, *args, **kwargs):
+    #     self.modified = timezone.now()
+    #     super().save(*args, **kwargs)
+    #
+    # # objects = InheritanceManager()
 
     # status = models.CharField(max_length=20,
     #                           choices=EntryStatusChoices.choices,
@@ -165,7 +165,7 @@ class CaseEntry(models.Model):
     #     return self.title + "(Entry)"
     #
     # class Meta:
-    #     app_label = 'entries'
+    #     app_label = 'case_entries'
     #     verbose_name_plural = 'entries'
     #
     # objects = InheritanceManager()

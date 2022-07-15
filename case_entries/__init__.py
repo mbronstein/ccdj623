@@ -1,2 +1,2 @@
 # from .models import CaseEntry
-from .models import EntryCategory, CaseEntry
+from .models import EntryCategory

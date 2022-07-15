@@ -98,7 +98,7 @@ LOCAL_APPS = [
     "matters.apps.MattersConfig",
     "events.apps.EventsConfig",
     "tasks.apps.TasksConfig",
-    # "case_entries.apps.EntriesConfig",
+    "case_entries.apps.EntriesConfig",
 
     # "apps.ssoffices.apps.SsofficesConfig"
 
