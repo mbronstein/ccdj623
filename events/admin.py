@@ -1,6 +1,6 @@
 from django.contrib import admin
 from events.models import Event, EventCategory
-from core import utils as core_utils
+
 
 
 @admin.register(Event)

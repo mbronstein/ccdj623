@@ -15,7 +15,7 @@ class EventCategory(models.Model):
         CONF = 3, 'Conference'
         DEADLINE = 4, "Deadline"
         VIDEO = 5, 'Video Conf'
-        SS_HEARING = 6, 'OHO Hearing'
+        HEARING = 6, 'Hearing'
         MEET = 7, "Meeting"
         PRESENTATION = 8, "Presentation"
         OTHER = 9, 'Other'
@@ -104,6 +104,15 @@ class Event(models.Model):
         return self.startdatetime.strftime("%m/%d/%y %I:%M %p (%a)")
 
     compact_startdatetime.short_description = 'Date/Time'
+
+    def get_fields(self):
+        return [(field.verbose_name, field.value_from_object(self))
+                if field.verbose_name != 'event'
+                else
+                (field.verbose_name,
+                 Event.objects.get(pk=field.value_from_object(self)).name)
+                for field in self.__class__._meta.fields[1:]
+                ]
 
     class Meta:
         app_label = 'events'

@@ -37,9 +37,9 @@ class EntryCategory(models.Model):
                                    blank=True)
     notes = models.TextField(null=True, blank=True)
     edited_by = models.ForeignKey(USER_MODEL,
-                                   on_delete=models.CASCADE,
-                                   related_name="user_entries"
-                                   )
+                                  on_delete=models.CASCADE,
+                                  related_name="user_entries"
+                                  )
     modified = models.DateTimeField(null=True,
                                     blank=True)
 
@@ -50,81 +50,50 @@ class EntryCategory(models.Model):
         app_label = 'entries'
         verbose_name_plural = "entry categories"
 
-#
-# class CaseEntry(models.Model):
-    # class EntryIoChoices(models.TextChoices):
-    #     OTHER = "OTH", "Other"
-    #     IN = 'IN', "Incoming"
-    #     OUT = 'OUT', "Outgoing"
-    #     UNKNOWN = "UNK", 'Unknown'
-    #
-    # class EntryStatusChoices(models.TextChoices):
-    #     NEW = "N", "New"
-    #     UNKNOWN = "U", "Unknown"
-    #     DRAFT = "D", "Draft"
-    #     SENT = "S", "Sent"
-    #     PROCESSED = "P", "Processed"
-    #
-    # class EntrySourceChoices(models.TextChoices):
-    #     UNKNOWN = "UNK", "Unknown"
-    #     DELIVERED = "DELIVERED", "Received by Mail or Delivery"
-    #     EMAIL = 'EMAIL', 'Email'
-    #     SMS = 'SMS', 'SMS'
-    #     FAX = 'FAX", "Fax"'
-    #     PHONE = "CALL", "Phone call"
-    #     OTHER = "OTH", "Other"
 
-    #  class Sender    ("other", "Other"),
-    #     ("unk", "unknown"),
-    #     ('na', "Not applicable"),
-    #     ("client", "Client"),
-    #     ("ssfo", "SSA FO"),
-    #     ("dds", "DDS"),
-    #     ("oho", "OHO"),
-    #     ("alj", "ALJ"),
-    #     ("ac", "Appeals Council"),
-    #     ("psc", "Program Service Center"),
-    #     ("med", "Medical Provider"),
-    #     ("insco", "Ins Co"),
-    # )
-    #
-    # id = models.BigAutoField
-    # datetime = models.DateTimeField(default=timezone.now, blank=True)
-    # title = models.CharField(max_length=60)
-    # category = models.ForeignKey('case_entries.EntryCategory',
-    #                              null=True,
-    #                              blank=True,
-    #                              on_delete=models.CASCADE,
-    #                              related_name='%(class)s_categories'
-    #                              )
-    # matter = models.ForeignKey("matters.Matter",
-    #                            on_delete=models.CASCADE,
-    #                            null=True,
-    #                            related_name='user_matters',
-    #                            )
-    #
-    # description = models.CharField(max_length=100, null=True, blank=True)
-    # notes = models.TextField(null=True, blank=True)
-    # tags = TaggableManager(blank=True)
-    # timespent = models.DecimalField(default=0, decimal_places=1, max_digits=3)
-    # created_by = models.ForeignKey(USER_MODEL,
-    #                                on_delete=models.CASCADE,
-    #                                related_name="user_case_entries"
-    #                                )
-    # modified = models.DateTimeField(auto_now_add=True)
-    #
-    # class Meta:
-    #     app_label = 'case_entries'
-    #     verbose_name = 'case entry'
-    #     verbose_name_plural = 'case entries'
-    #
-    # def __str__(self):
-    #     return f"{self.datetime}:{self.matter.name}:{self.title}"
-    #
+class CaseEntry(models.Model):
+    id = models.BigAutoField
+    datetime = models.DateTimeField(default=timezone.now, blank=True)
+    title = models.CharField(max_length=60)
+    category = models.ForeignKey('entries.EntryCategory',
+                                 null=True,
+                                 blank=True,
+                                 on_delete=models.CASCADE,
+                                 related_name='categories'
+                                 )
+    matter = models.ForeignKey("matters.Matter",
+                               on_delete=models.CASCADE,
+                               null=True,
+                               related_name='matters',
+                               )
+
+    description = models.CharField(max_length=100, null=True, blank=True)
+    notes = models.TextField(null=True, blank=True)
+    tags = TaggableManager(blank=True)
+    time_spent = models.DecimalField(default=0, decimal_places=1, max_digits=3)
+    created_by = models.ForeignKey(USER_MODEL,
+                                   on_delete=models.CASCADE,
+                                   )
+    modified = models.DateTimeField()
+
+    class Meta:
+        app_label = 'entries'
+        verbose_name = 'case entry'
+        verbose_name_plural = 'case entries'
+
+    def __str__(self):
+        return f"{self.datetime}:{self.matter.name}:{self.title}"
+
+    # for admin display
+    def compact_datetime(self):
+        return self.datetime.strftime("%m/%d/%y %I:%M %p (%a)")
+
+    compact_datetime.short_description = 'Date/Time'
+
     # def save(self, *args, **kwargs):
     #     self.modified = timezone.now()
     #     super().save(*args, **kwargs)
-    #
+
     # # objects = InheritanceManager()
 
     # status = models.CharField(max_length=20,
@@ -174,6 +143,42 @@ class EntryCategory(models.Model):
     # # enddate = models.DateTimeField(default=timezone.now)
     # # duration = models.DecimalField(default=0, max_digits=5, decimal_places=2)
 
+# class EntryIoChoices(models.TextChoices):
+#     OTHER = "OTH", "Other"
+#     IN = 'IN', "Incoming"
+#     OUT = 'OUT', "Outgoing"
+#     UNKNOWN = "UNK", 'Unknown'
+#
+# class EntryStatusChoices(models.TextChoices):
+#     NEW = "N", "New"
+#     UNKNOWN = "U", "Unknown"
+#     DRAFT = "D", "Draft"
+#     SENT = "S", "Sent"
+#     PROCESSED = "P", "Processed"
+#
+# class EntrySourceChoices(models.TextChoices):
+#     UNKNOWN = "UNK", "Unknown"
+#     DELIVERED = "DELIVERED", "Received by Mail or Delivery"
+#     EMAIL = 'EMAIL', 'Email'
+#     SMS = 'SMS', 'SMS'
+#     FAX = 'FAX", "Fax"'
+#     PHONE = "CALL", "Phone call"
+#     OTHER = "OTH", "Other"
+
+#  class Sender    ("other", "Other"),
+#     ("unk", "unknown"),
+#     ('na', "Not applicable"),
+#     ("client", "Client"),
+#     ("ssfo", "SSA FO"),
+#     ("dds", "DDS"),
+#     ("oho", "OHO"),
+#     ("alj", "ALJ"),
+#     ("ac", "Appeals Council"),
+#     ("psc", "Program Service Center"),
+#     ("med", "Medical Provider"),
+#     ("insco", "Ins Co"),
+# )
+#
 #
 # class EmailEntry(CaseEntry):
 #     # Inherited Choice objects:
