@@ -24,6 +24,7 @@ if READ_DOT_ENV_FILE:
 SECRET_KEY = env.str("DJANGO_SECRET_KEY")
 DEBUG = env.bool("DEBUG", True)
 DEBUG_TOOLBAR = env.bool("DEBUG_TOOLBAR", True)
+LOG_FILEPATH = env.str("LOG_FILEPATH")
 SILK = env.bool("SILK", False)
 
 TIME_ZONE = 'America/New_York'
@@ -300,31 +301,20 @@ if True:
     }
 else:
     LOGGING = {
-        "version": 1,
-        "disable_existing_loggers": False,
-        "root": {"level": "INFO", "handlers": ["file"]},
-        "handlers": {
-            "file": {
-                "level": "INFO",
-                "class": "logging.FileHandler",
-                "filename": "/var/log/django.log",
-                "formatter": "app",
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'file': {
+                'level': 'DEBUG',
+                'class': 'logging.FileHandler',
+                'filename': LOG_FILEPATH,
             },
         },
-        "loggers": {
-            "django": {
-                "handlers": ["file"],
-                "level": "INFO",
-                "propagate": True
-            },
-        },
-        "formatters": {
-            "app": {
-                "format": (
-                    u"%(asctime)s [%(levelname)-8s] "
-                    "(%(module)s.%(funcName)s) %(message)s"
-                ),
-                "datefmt": "%Y-%m-%d %H:%M:%S",
+        'loggers': {
+            'django': {
+                'handlers': ['file'],
+                'level': 'DEBUG',
+                'propagate': True,
             },
         },
     }
