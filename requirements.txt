@@ -11,5 +11,5 @@ django-model-utils~=4.2.0
 #Dev packages
 django-werkzeug
 django-debug-toolbar~=3.5.0
-factory==1.2
+# factory==1.2
 pytest==7.1.2
