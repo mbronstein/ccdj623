@@ -278,7 +278,8 @@ if DEBUG_TOOLBAR is True:
 # See https://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
 
-if DEBUG is True:
+# if DEBUG is True:
+if True:
     LOGGING = {
         "version": 1,
         "disable_existing_loggers": False,
