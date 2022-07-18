@@ -42,12 +42,13 @@ class EventCategory(models.Model):
 
 
 class Event(models.Model):
-    # class StatusType(models.TextChoices):
-    #     SCHEDULED = 'SCHED', 'Scheduled'
-    #     CANCELLED = 'CANC', 'Cancelled'
-    #     DONE = 'DONE', 'Done'
-    #     ONHOLD = 'ONHOLD', 'On Hold'
-    #     OTHER = 'OTHER', 'Other'
+    class EventStatusType(models.IntegerChoices):
+        UNKNOWN = 1, "Unknown"
+        PENDING = 2, "Pending"
+        CANCELLED = 3, 'Cancelled'
+        DONE = 4, 'Done'
+        ONHOLD = 5, 'On Hold'
+        OTHER = 6, 'Other'
 
     # class LocationChoices(models.TextChoices):
     #     UNKNOWN = "unk", "Unknown"
@@ -72,7 +73,7 @@ class Event(models.Model):
     # EndDateTime = models.DateTimeField(null=True)
     attendees = models.CharField(max_length=60, null=True, blank=True)
     location = models.CharField(max_length=40, null=True, blank=True)
-    # status = models.ForeignKey("EventType", default='StatusType.OTHER',related_name="event_types")
+    status = models.IntegerField(choices=EventStatusType.choices, default=EventStatusType.PENDING)
     created_date = models.DateField(default=timezone.now,
                                     )
 

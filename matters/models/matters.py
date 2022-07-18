@@ -49,7 +49,7 @@ class Matter(models.Model):
     open_date = models.DateField(auto_now_add=True)
 
     class Meta:
-        pass
+        ordering = ['name']
 
     def __str__(self):
         return self.name
