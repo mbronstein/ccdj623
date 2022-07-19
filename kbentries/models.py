@@ -74,6 +74,7 @@ class KbEntry(models.Model):
 
     class Meta:
         app_label = 'kbentries'
+        verbose_name_plural = "KBase entries"
 
     def __str__(self):
         return f"{self.title}({self.category.name})"
