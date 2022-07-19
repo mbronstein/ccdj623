@@ -39,6 +39,8 @@ class Matter(models.Model):
                              default=1,
                              on_delete=models.CASCADE,
                              related_name="types_matters")
+    files_foldername = models.CharField(max_length=80,
+                                        default=name)
     tags = TaggableManager(blank=True)
     created_by = models.ForeignKey(
         USER_MODEL,

@@ -10,6 +10,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from matters.models import Matter
 from model_utils.managers import InheritanceManager
 
+
 from django.utils import timezone
 
 USER_MODEL = get_user_model()
@@ -26,6 +27,7 @@ class EntryCategory(models.Model):
         OTHER = 7, "Other"
         VOICEMAIL = 8, 'Voicemail'
         DICTATION = 9, 'Dictation'
+        FORM = 10, 'Form'
 
     id = models.BigAutoField
     type = models.IntegerField(choices=EntryTypeChoices.choices,
@@ -36,6 +38,7 @@ class EntryCategory(models.Model):
                                    null=True,
                                    blank=True)
     notes = models.TextField(null=True, blank=True)
+
     edited_by = models.ForeignKey(USER_MODEL,
                                   on_delete=models.CASCADE,
                                   related_name="user_entries"
@@ -67,10 +70,19 @@ class CaseEntry(models.Model):
                                related_name='matters',
                                )
 
-    description = models.CharField(max_length=100, null=True, blank=True)
-    notes = models.TextField(null=True, blank=True)
+    #  file = models.FileField(upload_to=matter.files_foldername,
+    #                            null=True,
+    #                            blank=True)
+
+    description = models.CharField(max_length=100,
+                                   null=True,
+                                   blank=True)
+    notes = models.TextField(null=True,
+                             blank=True)
     tags = TaggableManager(blank=True)
-    time_spent = models.DecimalField(default=0, decimal_places=1, max_digits=3)
+    time_spent = models.DecimalField(default=0,
+                                     decimal_places=1,
+                                     max_digits=3)
     created_by = models.ForeignKey(USER_MODEL,
                                    on_delete=models.CASCADE,
                                    )
@@ -89,6 +101,10 @@ class CaseEntry(models.Model):
         return self.datetime.strftime("%m/%d/%y %I:%M %p (%a)")
 
     compact_datetime.short_description = 'Date/Time'
+
+    def gen_file_folder_name(self):
+        return self.title
+
 
     # def save(self, *args, **kwargs):
     #     self.modified = timezone.now()

@@ -239,9 +239,10 @@ STATICFILES_FINDERS = [
 # MEDIA
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-root
-MEDIA_ROOT = str(APPS_DIR / "media")
+MEDIA_ROOT = env.str("MEDIA_ROOT")
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-url
-MEDIA_URL = "/media/"
+MEDIA_URL = "/files/"
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # WhiteNoise
