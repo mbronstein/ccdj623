@@ -5,6 +5,7 @@ django-crispy-forms
 django-allauth
 django-comments-xtd
 django-post-office
+django_mailbox
 django-reset-migrations
 psycopg2
 
