@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.models import Group
 from django.contrib.auth import get_user_model
-from django.db import  models
+from django.db import models
 from django.utils import timezone
 from taggit.managers import TaggableManager
 
@@ -33,7 +33,7 @@ class KbEntryCategory(models.Model):
     created_by = models.ForeignKey(
         USER_MODEL,
         on_delete=models.CASCADE,
-        related_name= "user_kbcategories"
+        related_name="user_kbcategories"
     )
     modified = models.DateTimeField(auto_now_add=True)
 
@@ -43,6 +43,11 @@ class KbEntryCategory(models.Model):
     class Meta:
         app_label = 'kbentries'
         verbose_name_plural = "KBase categories"
+#
+#
+# class HowtoStep(models.model):
+#     slug = models.SlugField(max_length=30, null=True)
+#     title = models.CharField(max_length=50)
 
 
 class KbEntry(models.Model):
@@ -52,7 +57,7 @@ class KbEntry(models.Model):
                                  null=True,
                                  on_delete=models.CASCADE,
                                  related_name="categories_kbentries")
-    slug = models.SlugField(max_length=30 )
+    slug = models.SlugField(max_length=30)
 
     created_date = models.DateField(default=timezone.now)
 
@@ -67,8 +72,8 @@ class KbEntry(models.Model):
                                    )
 
     notes = models.TextField(blank=True,
-                            null=True,
-                            )
+                             null=True,
+                             )
     tags = TaggableManager()
     last_updated = models.DateTimeField(default=timezone.now)
 

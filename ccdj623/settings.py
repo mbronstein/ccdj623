@@ -24,7 +24,8 @@ if READ_DOT_ENV_FILE:
 SECRET_KEY = env.str("DJANGO_SECRET_KEY")
 DEBUG = env.bool("DEBUG", True)
 DEBUG_TOOLBAR = env.bool("DEBUG_TOOLBAR", True)
-LOG_FILEPATH = env.str("LOG_FILEPATH")
+LOG_FILEPATH = env.str("LOG_FILEPATH", default=str(ROOT_DIR /"logs")
+                       )
 SILK = env.bool("SILK", False)
 
 TIME_ZONE = 'America/New_York'
@@ -88,6 +89,7 @@ THIRD_PARTY_APPS = [
     "django_extensions",
     # "django_filters",
     "post_office",
+    "django_mailbox",
     "reset_migrations",
     "model_utils",
 
@@ -241,7 +243,8 @@ STATICFILES_FINDERS = [
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-root
 MEDIA_ROOT = env.str("MEDIA_ROOT",
-                     default=[str(ROOT_DIR / "files")])
+                     default=str(ROOT_DIR / "files")
+                     )
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = "/files/"
 
