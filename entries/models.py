@@ -54,6 +54,9 @@ class EntryCategory(models.Model):
         verbose_name_plural = "entry categories"
 
 
+def filefolder_name(instance, filename):
+    return instance.matter.files_foldername
+
 class CaseEntry(models.Model):
     id = models.BigAutoField
     datetime = models.DateTimeField(default=timezone.now, blank=True)
@@ -70,9 +73,9 @@ class CaseEntry(models.Model):
                                related_name='matters',
                                )
 
-    #  file = models.FileField(upload_to=matter.files_foldername,
-    #                            null=True,
-    #                            blank=True)
+    file = models.FileField(upload_to=filefolder_name,
+                               null=True,
+                               blank=True)
 
     description = models.CharField(max_length=100,
                                    null=True,
@@ -102,8 +105,8 @@ class CaseEntry(models.Model):
 
     compact_datetime.short_description = 'Date/Time'
 
-    def gen_file_folder_name(self):
-        return self.title
+    def file_folder_name(instance, filename):
+        return self.matter.title
 
 
     # def save(self, *args, **kwargs):

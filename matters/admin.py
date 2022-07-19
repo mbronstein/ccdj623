@@ -9,4 +9,4 @@ class MatterTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Matter)
 class MatterAdmin(admin.ModelAdmin):
-    list_display = ['name', 'type']
+    list_display = ['name', 'type', 'files_foldername']

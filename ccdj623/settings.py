@@ -239,7 +239,8 @@ STATICFILES_FINDERS = [
 # MEDIA
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-root
-MEDIA_ROOT = env.str("MEDIA_ROOT")
+MEDIA_ROOT = env.str("MEDIA_ROOT",
+                     default=[str(ROOT_DIR / "files")])
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = "/files/"
 

@@ -31,16 +31,21 @@ class MatterType(models.Model):
 
 
 class Matter(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=150, unique=True)
+    id = models.UUIDField(primary_key=True,
+                          default=uuid.uuid4,
+                          editable=False)
+    name = models.CharField(max_length=150,
+                            unique=True)
     case_id = models.CharField(max_length=150)
-    description = models.TextField(null=True, blank=True)
+    description = models.TextField(null=True,
+                                   blank=True)
     type = models.ForeignKey(MatterType,
                              default=1,
                              on_delete=models.CASCADE,
                              related_name="types_matters")
     files_foldername = models.CharField(max_length=80,
-                                        default=name)
+                                        null=True,
+                                        blank=True)
     tags = TaggableManager(blank=True)
     created_by = models.ForeignKey(
         USER_MODEL,

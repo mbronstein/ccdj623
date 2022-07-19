@@ -12,7 +12,7 @@ class EntryCategoryAdmin(admin.ModelAdmin):
 @admin.register(CaseEntry)
 class CaseEntryAdmin(admin.ModelAdmin):
     # raw_id_fields = ['category']
-    list_display = ['compact_datetime', 'matter', 'category', 'title', 'notes', 'time_spent', ]
+    list_display = ['compact_datetime', 'matter', 'category', 'title', 'notes', 'time_spent', 'file']
 
     # def get_changeform_initial_data(self, request):
     #     return {'created_by': request.user, 'modified':utils.timezone.now()}
