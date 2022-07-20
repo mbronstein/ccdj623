@@ -43,8 +43,7 @@ class EntryCategory(models.Model):
                                   on_delete=models.CASCADE,
                                   related_name="user_entries"
                                   )
-    modified = models.DateTimeField(null=True,
-                                    blank=True)
+    modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.name} ({self.type}"
@@ -89,7 +88,7 @@ class CaseEntry(models.Model):
     created_by = models.ForeignKey(USER_MODEL,
                                    on_delete=models.CASCADE,
                                    )
-    modified = models.DateTimeField()
+    modified = models.DateTimeField(auto_now=True)
 
     class Meta:
         app_label = 'entries'

@@ -23,7 +23,7 @@ class SopStepCategory(models.Model):
                                default=SopStepCategoryTypeChoices.UNKNOWN)
     name = models.CharField(max_length=150,
                             unique=True)
-    url = models.URLField(null=True, blank=True)
+
     description = models.CharField(max_length=60,
                                    null=True,
                                    blank=True)
@@ -40,7 +40,7 @@ class SopStepCategory(models.Model):
 
     class Meta:
         app_label = 'sops'
-        verbose_name_plural = "SOP categories"
+        verbose_name_plural = "SOP Step categories"
 
 
 class SopStep(models.Model):
@@ -57,7 +57,7 @@ class SopStep(models.Model):
 
     description = models.CharField(max_length=80,
                                    blank=True)
-
+    url = models.URLField(null=True, blank=True)
     notes = models.TextField(blank=True,
                              null=True,
                              )
@@ -71,7 +71,7 @@ class SopStep(models.Model):
 
     class Meta:
         app_label = 'sops'
-        verbose_name_plural = "SOPs"
+        verbose_name_plural = "SOP Steps"
 
     def __str__(self):
         return f"{self.title})"
