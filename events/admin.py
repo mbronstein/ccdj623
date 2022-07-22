@@ -15,3 +15,4 @@ class EventAdmin(admin.ModelAdmin):
 class EventCategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'type', 'id')
     ordering = ['name']
+    list_filter = ['type']
