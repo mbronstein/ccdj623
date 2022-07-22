@@ -4,6 +4,7 @@ from django.db import DEFAULT_DB_ALIAS, models
 from django.db.transaction import Atomic, get_connection
 from django.urls import reverse
 from django.utils import timezone
+from django_ical.views import ICalFeed
 
 USER_MODEL = get_user_model()
 
@@ -68,7 +69,7 @@ class Event(models.Model):
                                related_name='event_matters',
 
                                )
-    startdatetime = models.DateTimeField(null=True)
+    start_datetime = models.DateTimeField(null=True)
     length = models.IntegerField(default=30)
     # EndDateTime = models.DateTimeField(null=True)
     attendees = models.CharField(max_length=60, null=True, blank=True)
@@ -101,10 +102,10 @@ class Event(models.Model):
         return reverse("event_detail", kwargs={"event_id": self.id})
 
     # for admin display
-    def compact_startdatetime(self):
-        return self.startdatetime.strftime("%m/%d/%y %I:%M %p (%a)")
+    def compact_start_datetime(self):
+        return self.start_datetime.strftime("%m/%d/%y %I:%M %p (%a)")
 
-    compact_startdatetime.short_description = 'Date/Time'
+    compact_start_datetime.short_description = 'Date/Time'
 
     def get_fields(self):
         return [(field.verbose_name, field.value_from_object(self))
@@ -118,3 +119,24 @@ class Event(models.Model):
     class Meta:
         app_label = 'events'
         ordering = ["priority", "created_date"]
+
+
+class EventFeed(ICalFeed):
+    """
+    A simple event calender
+    """
+    product_id = '-//cms.bronsteinlaw.com//Example//EN'
+    timezone = 'UTC'
+    file_name = "event.ics"
+
+    def items(self):
+        return Event.objects.all().order_by('-start_datetime')
+
+    def item_title(self, item):
+        return item.title
+
+    def item_description(self, item):
+        return item.description
+
+    def item_start_datetime(self, item):
+        return item.start_datetime

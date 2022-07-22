@@ -36,7 +36,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=140)),
-                ('startdatetime', models.DateTimeField(null=True)),
+                ('description', models.TextField(blank=True, null=True)),
+                ('start_datetime', models.DateTimeField(null=True)),
                 ('length', models.IntegerField(default=30)),
                 ('attendees', models.CharField(blank=True, max_length=60, null=True)),
                 ('location', models.CharField(blank=True, max_length=40, null=True)),

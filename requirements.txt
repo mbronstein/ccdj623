@@ -8,7 +8,7 @@ django-post-office
 django_mailbox
 django-reset-migrations
 psycopg2
-
+django-ical
 
 
 pydantic

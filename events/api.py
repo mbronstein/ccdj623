@@ -20,7 +20,7 @@
 #     return {"title": event.title, "details": event.details}
 #
 #
-# startdatetime = models.DateTimeField(null=True)
+# start_datetime = models.DateTimeField(null=True)
 #     length = models.IntegerField(default=30)
 #     # EndDateTime = models.DateTimeField(null=True)
 #     attendees = models.CharField(max_length=60, null=True, blank=True)
