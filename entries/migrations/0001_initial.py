@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
                 ('modified', models.DateTimeField()),
                 ('category', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='categories', to='entries.entrycategory')),
                 ('created_by', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('matter', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='matters', to='matters.matter')),
+                # ('matter', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='matters', to='matters.matter')),
                 ('tags', taggit.managers.TaggableManager(blank=True, help_text='A comma-separated list of tags.', through='taggit.TaggedItem', to='taggit.Tag', verbose_name='Tags')),
             ],
             options={

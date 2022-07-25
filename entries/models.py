@@ -31,6 +31,11 @@ class EntryCategory(models.Model):
     id = models.BigAutoField
     type = models.IntegerField(choices=EntryTypeChoices.choices,
                                default=EntryTypeChoices.UNKNOWN)
+    matter = models.ForeignKey(Matter,
+                               null=True,
+                               related_name="matter_entries",
+                               on_delete=models.CASCADE
+                               )
     name = models.CharField(max_length=40,
                             unique=True)
     description = models.CharField(max_length=80,
@@ -66,11 +71,11 @@ class CaseEntry(models.Model):
                                  on_delete=models.CASCADE,
                                  related_name='categories'
                                  )
-    matter = models.ForeignKey("matters.Matter",
-                               on_delete=models.CASCADE,
-                               null=True,
-                               related_name='matters',
-                               )
+    # matter = models.ForeignKey("matters.Matter",
+    #                              on_delete=models.CASCADE,
+    #                              null=True,
+    #                              related_name='matters',
+    #                            )
 
     file = models.FileField(upload_to=filefolder_name,
                             null=True,
