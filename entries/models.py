@@ -10,7 +10,6 @@ from phonenumber_field.modelfields import PhoneNumberField
 from matters.models import Matter
 from model_utils.managers import InheritanceManager
 
-
 from django.utils import timezone
 
 USER_MODEL = get_user_model()
@@ -56,6 +55,7 @@ class EntryCategory(models.Model):
 def filefolder_name(instance, filename):
     return instance.matter.files_foldername
 
+
 class CaseEntry(models.Model):
     id = models.BigAutoField
     datetime = models.DateTimeField(default=timezone.now, blank=True)
@@ -73,8 +73,8 @@ class CaseEntry(models.Model):
                                )
 
     file = models.FileField(upload_to=filefolder_name,
-                               null=True,
-                               blank=True)
+                            null=True,
+                            blank=True)
 
     description = models.CharField(max_length=100,
                                    null=True,
@@ -96,7 +96,7 @@ class CaseEntry(models.Model):
         verbose_name_plural = 'case entries'
 
     def __str__(self):
-        return f"{self.datetime}:{self.matter.name}:{self.title}"
+        return f"{self.title}:{self.matter.title}"
 
     # for admin display
     def compact_datetime(self):
@@ -106,7 +106,6 @@ class CaseEntry(models.Model):
 
     def file_folder_name(instance, filename):
         return self.matter.title
-
 
     # def save(self, *args, **kwargs):
     #     self.modified = timezone.now()

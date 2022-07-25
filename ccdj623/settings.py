@@ -101,7 +101,7 @@ LOCAL_APPS = [
     "matters.apps.MattersConfig",
     "events.apps.EventsConfig",
     "tasks.apps.TasksConfig",
-    # "entries.apps.EntriesConfig",
+    "entries.apps.EntriesConfig",
     # "kbentries.apps.KbEntriesConfig",
     # "sops.apps.SopsConfig",
     # "contacts.apps.AsContactConfig",
