@@ -71,11 +71,11 @@ class CaseEntry(models.Model):
                                  on_delete=models.CASCADE,
                                  related_name='categories'
                                  )
-    # matter = models.ForeignKey("matters.Matter",
-    #                              on_delete=models.CASCADE,
-    #                              null=True,
-    #                              related_name='matters',
-    #                            )
+    matter = models.ForeignKey("matters.Matter",
+                                 on_delete=models.CASCADE,
+                                 null=True,
+                                 related_name='matters',
+                               )
 
     file = models.FileField(upload_to=filefolder_name,
                             null=True,
@@ -101,7 +101,7 @@ class CaseEntry(models.Model):
         verbose_name_plural = 'case entries'
 
     def __str__(self):
-        return f"{self.title}:{self.matter.title}"
+        return f"{self.title}"
 
     # for admin display
     def compact_datetime(self):

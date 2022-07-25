@@ -13,7 +13,7 @@ class EntryCategoryAdmin(admin.ModelAdmin):
 @admin.register(CaseEntry)
 class CaseEntryAdmin(admin.ModelAdmin):
     # raw_id_fields = ['category']
-    list_display = ['compact_datetime', 'category', 'title', 'notes', 'time_spent', 'file']
+    list_display = ['compact_datetime', 'matter','category', 'title', 'notes', 'time_spent', 'file']
     exclude = ["created", "modified", "added_by", "modified_by", ]
 
     # def get_changeform_initial_data(self, request):
