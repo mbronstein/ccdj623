@@ -93,6 +93,7 @@ THIRD_PARTY_APPS = [
     "reset_migrations",
     "model_utils",
     "import_export",
+    "auditlog",
     # "silk",
 ]
 
@@ -102,7 +103,7 @@ LOCAL_APPS = [
     "events.apps.EventsConfig",
     "tasks.apps.TasksConfig",
     "entries.apps.EntriesConfig",
-    # "kbentries.apps.KbEntriesConfig",
+    "kbentries.apps.KbEntriesConfig",
     # "sops.apps.SopsConfig",
     # "contacts.apps.AsContactConfig",
     # "apps.ssoffices.apps.SsofficesConfig"
@@ -125,6 +126,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.common.BrokenLinkEmailsMiddleware",
+    'auditlog.middleware.AuditlogMiddleware',
 
 ]
 

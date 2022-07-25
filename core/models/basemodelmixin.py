@@ -68,6 +68,38 @@ class BaseModelMixin(models.Model):
         ordering = ['title']
         abstract = True
 
+class VeryBaseModel(models.Model):
+    delete_flag = models.BooleanField(default=False
+                                      )
+    is_active = models.BooleanField(default=False
+                                    )
+    created = models.DateTimeField(auto_now_add=True,
+                                  )
+    modified = models.DateTimeField(auto_now_add=True,
+                                    )
+    added_by = models.ForeignKey(USER_MODEL,
+                                 blank=True,
+                                 null=True,
+                                 on_delete=models.SET_NULL,
+                                 related_name='+',
+                                 # default=USER_MODEL.objects.get(username='admin')
+                                 )
+    modified_by = models.ForeignKey(USER_MODEL,
+                                    blank=True,
+                                    null=True,
+                                    on_delete=models.SET_NULL,
+                                    related_name='+',
+                                    # default=USER_MODEL.objects.get(username='admin'),
+
+                                    )
+
+
+    class Meta:
+        abstract = True
+        app_label = "email_client"
+
+
+
     # def save(self, **kwargs):
 
     #     def save_model(self, request, obj, form, change):
