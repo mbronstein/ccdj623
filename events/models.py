@@ -50,6 +50,7 @@ class Event(models.Model):
         DONE = 4, 'Done'
         ONHOLD = 5, 'On Hold'
         OTHER = 6, 'Other'
+        WAIT_RESCHEDULE = 7, "Wait to be rescheduled"
 
     # class LocationChoices(models.TextChoices):
     #     UNKNOWN = "unk", "Unknown"
@@ -67,7 +68,6 @@ class Event(models.Model):
                                on_delete=models.CASCADE,
                                null=True,
                                related_name='event_matters',
-
                                )
     start_datetime = models.DateTimeField(null=True)
     length = models.IntegerField(default=30)

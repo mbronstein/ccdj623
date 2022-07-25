@@ -5,9 +5,9 @@ from events.models import Event, EventCategory
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    list_display = ['compact_start_datetime', 'title', 'category', 'matter', 'length', 'location']
-    exclude = "created_date", "created_by"
-    list_filter = ["matter", 'category']
+    list_display = ['compact_start_datetime', 'title','matter',  'category',  'length', 'location']
+    exclude = ["created", "modified", "added_by", "modified_by", ]
+    list_filter = [ 'category']
     ordering = ["start_datetime"]
     search_fields = ["title"]
 

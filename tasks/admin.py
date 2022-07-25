@@ -14,11 +14,12 @@ class TaskCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ['compact_due_date', "matter", "title", "category", "priority",
+    list_display = ['compact_due_date', "title", "category", "matter", "priority",
                     "due_date", "assigned_to", "completed"]
-    list_filter = ["matter",  "assigned_to", "category"]
+    exclude= ["created", "modified", "added_by", "modified_by", ]
+    # list_filter = ["assigned_to", "category"]
     ordering = ["priority", "due_date"]
-    search_fields = ["title"]
+    # search_fields = ["title"]
     # actions = [export_to_csv]
 
 

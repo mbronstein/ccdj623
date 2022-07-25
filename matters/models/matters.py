@@ -1,6 +1,3 @@
-import uuid
-import taggit
-
 from django.contrib.auth import get_user_model
 from django.db import models
 from taggit.managers import TaggableManager

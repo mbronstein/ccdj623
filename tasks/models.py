@@ -30,6 +30,8 @@ class TaskCategory(models.Model):
         OTHER = 8, 'Other'
         PAY = 9, 'Pay Bill'
         BILL = 10, 'Prepare Bill'
+        RESEARCH = 11, "Research"
+        FIX = 12, "Fix"
 
     id = models.BigAutoField
     type = models.IntegerField(choices=TaskTypeChoices.choices,
@@ -103,7 +105,7 @@ class Task(models.Model):
         # ordering = ["priority", "created_date"]
 
     def __str__(self):
-        return f"{self.category} {self.due_date} ({self.matter.name})"
+        return f"{self.title}:{self.category}:{self.due_date} "
 
 # # Has due date for an instance of this object passed?
 # def overdue_status(self):

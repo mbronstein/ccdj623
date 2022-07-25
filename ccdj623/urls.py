@@ -17,9 +17,14 @@ urlpatterns = [
     # path("api/", api.urls)
 ]
 
+admin.site.site_header  =  "LOMB CMS Admin"
+admin.site.site_title  =  "LOMB  Admin Site"
+admin.site.index_title  = "LOMB  Admin Site"
+
 if settings.DEBUG_TOOLBAR:
     from ccdj623.settings import DEBUG_TOOLBAR
 
     urlpatterns += [
         path('__debug__/', include('debug_toolbar.urls')),
     ]
+
