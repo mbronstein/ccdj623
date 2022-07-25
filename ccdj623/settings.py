@@ -99,8 +99,8 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "core.apps.CoreConfig",
     "matters.apps.MattersConfig",
-    # "events.apps.EventsConfig",
-    # "tasks.apps.TasksConfig",
+    "events.apps.EventsConfig",
+    "tasks.apps.TasksConfig",
     # "entries.apps.EntriesConfig",
     # "kbentries.apps.KbEntriesConfig",
     # "sops.apps.SopsConfig",
