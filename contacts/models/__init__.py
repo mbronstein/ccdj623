@@ -1,0 +1,1 @@
+from .ascontact import AsContact

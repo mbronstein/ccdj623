@@ -8,6 +8,7 @@ from .models import TaskCategory, Task
 class TaskCategoryAdmin(admin.ModelAdmin):
     list_display = ["name", 'type', 'description', 'id']
     ordering = ["name"]
+    list_filter = ['type']
     search_fields = ["name", "description"]
 
 

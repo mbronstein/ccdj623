@@ -92,18 +92,19 @@ THIRD_PARTY_APPS = [
     "django_mailbox",
     "reset_migrations",
     "model_utils",
-
+    "import_export",
     # "silk",
 ]
 
 LOCAL_APPS = [
+    "core.apps.CoreConfig",
     "matters.apps.MattersConfig",
-    "events.apps.EventsConfig",
-    "tasks.apps.TasksConfig",
-    "entries.apps.EntriesConfig",
-    "kbentries.apps.KbEntriesConfig",
-    "sops.apps.SopsConfig",
-
+    # "events.apps.EventsConfig",
+    # "tasks.apps.TasksConfig",
+    # "entries.apps.EntriesConfig",
+    # "kbentries.apps.KbEntriesConfig",
+    # "sops.apps.SopsConfig",
+    # "contacts.apps.AsContactConfig",
     # "apps.ssoffices.apps.SsofficesConfig"
 
 ]

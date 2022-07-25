@@ -4,9 +4,13 @@ from .models import MatterType, Matter
 
 @admin.register(MatterType)
 class MatterTypeAdmin(admin.ModelAdmin):
-    list_display = ['name', 'description', 'id']
+    list_display = ['title', 'description', 'id']
+    exclude = ["assigned_to", "created", "modified", "added_by", "modified_by", ]
 
 
 @admin.register(Matter)
 class MatterAdmin(admin.ModelAdmin):
-    list_display = ['name', 'type', 'files_foldername']
+    list_display = ['title', 'type', 'files_foldername']
+    exclude = ["assigned_to", "created", "modified", "added_by", "modified_by", ]
+
+
