@@ -6,14 +6,14 @@ import core
 
 @admin.register(EntryCategory)
 class EntryCategoryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'type', 'description', 'id']
+    list_display = ['title', 'type',  'id']
     exclude = [ "created", "modified", "added_by", "modified_by", ]
 
 
 @admin.register(CaseEntry)
 class CaseEntryAdmin(admin.ModelAdmin):
     # raw_id_fields = ['category']
-    list_display = ['compact_datetime', 'matter','category', 'title', 'notes', 'time_spent', 'file']
+    list_display = ['compact_datetime', 'matter','category', 'description', 'time_spent' ]
     exclude = ["created", "modified", "added_by", "modified_by", ]
 
     # def get_changeform_initial_data(self, request):

@@ -15,5 +15,6 @@ class EventAdmin(admin.ModelAdmin):
 @admin.register(EventCategory)
 class EventCategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'type', 'id')
+    exclude = ["created", "modified", "added_by", "modified_by", ]
     ordering = ['name']
     list_filter = ['type']

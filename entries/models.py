@@ -17,7 +17,7 @@ from django.utils import timezone
 USER_MODEL = get_user_model()
 
 
-class EntryCategory(models.Model):
+class EntryCategory(BaseModelMixin):
     class EntryTypeChoices(models.IntegerChoices):
         UNKNOWN = 1, 'Unknown'
         NOTE = 2, 'Note'
@@ -29,6 +29,7 @@ class EntryCategory(models.Model):
         VOICEMAIL = 8, 'Voicemail'
         DICTATION = 9, 'Dictation'
         FORM = 10, 'Form'
+
 
     type = models.IntegerField(choices=EntryTypeChoices.choices,
                                default=EntryTypeChoices.UNKNOWN)

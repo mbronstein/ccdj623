@@ -42,10 +42,6 @@ class BaseModelMixin(models.Model):
 
     status = models.IntegerField(default=1)
 
-    assigned_to = models.ForeignKey(USER_MODEL, blank=True,
-                                    null=True,
-                                    on_delete=models.CASCADE,
-                                    related_name="%(app_label)s_%(class)s_assigned")
     created = models.DateTimeField(auto_now_add=True,
                                    )
     modified = models.DateTimeField(auto_now_add=True,
