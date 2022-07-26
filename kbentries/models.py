@@ -18,7 +18,7 @@ class KbEntryCategory(BaseModelMixin):
 
     type = models.IntegerField(choices=KbaseTypeChoices.choices,
                                default=KbaseTypeChoices.UNKNOWN)
-    url = models.URLField(null=True, blank=True)
+
 
     def __str__(self):
         return self.title
@@ -41,8 +41,8 @@ class KbEntry(BaseModelMixin):
                                  null=True,
                                  on_delete=models.CASCADE,
                                  related_name="categories_kbentries")
-
-    tags = TaggableManager(blank=True)
+    url1 = models.URLField(null=True, blank=True)
+    url2 = models.URLField(null=True, blank=True)
 
     class Meta:
         app_label = 'kbentries'
