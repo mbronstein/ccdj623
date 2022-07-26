@@ -30,7 +30,6 @@ class EntryCategory(BaseModelMixin):
         DICTATION = 9, 'Dictation'
         FORM = 10, 'Form'
 
-
     type = models.IntegerField(choices=EntryTypeChoices.choices,
                                default=EntryTypeChoices.UNKNOWN)
 

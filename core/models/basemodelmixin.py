@@ -50,13 +50,11 @@ class BaseModelMixin(models.Model):
                                  null=True,
                                  on_delete=models.SET_NULL,
                                  related_name='+',
-                                 # default=USER_MODEL.objects.get(username='admin')
                                  )
     modified_by = models.ForeignKey(USER_MODEL, blank=True,
                                     null=True,
                                     on_delete=models.SET_NULL,
                                     related_name='+',
-                                    # default=USER_MODEL.objects.get(username='admin'),
 
                                     )
 
