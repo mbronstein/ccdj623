@@ -20,7 +20,7 @@ class Code(BaseModelMixin):
                                   null=True)
 
     def __str__(self):
-        return f"{self.name} ({self.model} : {self.field_name}"
+        return f"{self.title} ({self.model} : {self.field_name}"
 
     class Meta:
         app_label = 'core'

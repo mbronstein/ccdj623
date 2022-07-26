@@ -105,7 +105,7 @@ LOCAL_APPS = [
     "entries.apps.EntriesConfig",
     "kbentries.apps.KbEntriesConfig",
     # "sops.apps.SopsConfig",
-    # "contacts.apps.AsContactConfig",
+    "contacts.apps.AsContactConfig",
     # "apps.ssoffices.apps.SsofficesConfig"
 
 ]
@@ -282,6 +282,10 @@ if DEBUG_TOOLBAR is True:
 
     # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#internal-ips
     INTERNAL_IPS = ["127.0.0.1", "10.0.2.2"]
+
+# DJANGO_AUDITLOG
+AUDITLOG_INCLUDE_ALL_MODELS=True
+
 
 # LOGGING
 # ------------------------------------------------------------------------------

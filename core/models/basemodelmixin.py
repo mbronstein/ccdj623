@@ -40,6 +40,8 @@ class BaseModelMixin(models.Model):
     notes = models.TextField(null=True, blank=True)
     tags = TaggableManager(blank=True)
 
+    status = models.IntegerField(default=1)
+
     assigned_to = models.ForeignKey(USER_MODEL, blank=True,
                                     null=True,
                                     on_delete=models.CASCADE,

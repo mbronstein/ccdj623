@@ -2,6 +2,8 @@
 #
 from django.contrib.auth import get_user_model
 from django.db import models
+from core.models import BaseModelMixin
+
 import django.utils.timezone
 # from django.utils import timezone
 
@@ -28,43 +30,18 @@ class EntryCategory(models.Model):
         DICTATION = 9, 'Dictation'
         FORM = 10, 'Form'
 
-    id = models.BigAutoField
     type = models.IntegerField(choices=EntryTypeChoices.choices,
                                default=EntryTypeChoices.UNKNOWN)
-    matter = models.ForeignKey(Matter,
-                               null=True,
-                               related_name="matter_entries",
-                               on_delete=models.CASCADE
-                               )
-    name = models.CharField(max_length=40,
-                            unique=True)
-    description = models.CharField(max_length=80,
-                                   null=True,
-                                   blank=True)
-    notes = models.TextField(null=True, blank=True)
-
-    edited_by = models.ForeignKey(USER_MODEL,
-                                  on_delete=models.CASCADE,
-                                  related_name="user_entries"
-                                  )
-    modified = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"{self.name} ({self.type}"
 
     class Meta:
         app_label = 'entries'
         verbose_name_plural = "entry categories"
 
+    def __str__(self):
+        return f"{self.title}({self.type}"
 
-def filefolder_name(instance, filename):
-    return instance.matter.files_foldername
 
-
-class CaseEntry(models.Model):
-    id = models.BigAutoField
-    datetime = models.DateTimeField(default=timezone.now, blank=True)
-    title = models.CharField(max_length=60)
+class CaseEntry(BaseModelMixin):
     category = models.ForeignKey('entries.EntryCategory',
                                  null=True,
                                  blank=True,
@@ -72,28 +49,19 @@ class CaseEntry(models.Model):
                                  related_name='categories'
                                  )
     matter = models.ForeignKey("matters.Matter",
-                                 on_delete=models.CASCADE,
-                                 null=True,
-                                 related_name='matters',
+                               on_delete=models.CASCADE,
+                               null=True,
+                               related_name='matters',
                                )
 
-    file = models.FileField(upload_to=filefolder_name,
-                            null=True,
-                            blank=True)
+    # file = models.FileField(upload_to=filefolder_name,
+    #                         null=True,
+    #                         blank=True)
 
-    description = models.CharField(max_length=100,
-                                   null=True,
-                                   blank=True)
-    notes = models.TextField(null=True,
-                             blank=True)
-    tags = TaggableManager(blank=True)
     time_spent = models.DecimalField(default=0,
                                      decimal_places=1,
-                                     max_digits=3)
-    created_by = models.ForeignKey(USER_MODEL,
-                                   on_delete=models.CASCADE,
-                                   )
-    modified = models.DateTimeField(auto_now=True)
+                                     max_digits=3,
+                                     )
 
     class Meta:
         app_label = 'entries'
@@ -108,9 +76,9 @@ class CaseEntry(models.Model):
         return self.datetime.strftime("%m/%d/%y %I:%M %p (%a)")
 
     compact_datetime.short_description = 'Date/Time'
-
-    def file_folder_name(instance, filename):
-        return self.matter.title
+    #
+    # def file_folder_name(instance, filename):
+    #     return instance.matter.title
 
     # def save(self, *args, **kwargs):
     #     self.modified = timezone.now()
