@@ -27,7 +27,7 @@ class EventCategory(models.Model):
                                default=EventTypeChoices.UNKNOWN)
     description = models.TextField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
-    created_by = models.ForeignKey(
+    added_by = models.ForeignKey(
         USER_MODEL,
         on_delete=models.CASCADE,
         related_name="user_event_categories"

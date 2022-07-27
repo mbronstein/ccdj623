@@ -18,7 +18,7 @@ class TaskCategoryAdmin(admin.ModelAdmin):
             obj.added_by = request.user
             obj.created = timezone.now()
         obj.modified = timezone.now()
-        obj.modified_by = timezone.now()
+        obj.modified_by = request.user
         obj.save()
 
 
@@ -38,7 +38,7 @@ class TaskAdmin(admin.ModelAdmin):
             obj.added_by = request.user
             obj.created = timezone.now()
         obj.modified = timezone.now()
-        obj.modified_by = timezone.now()
+        obj.modified_by = request.user
         obj.save()
 #
 #

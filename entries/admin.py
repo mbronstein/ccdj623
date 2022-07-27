@@ -1,5 +1,6 @@
 from .models import EntryCategory, CaseEntry
 from django.contrib import admin
+from django.utils import timezone
 from django import utils
 import core
 
@@ -9,6 +10,14 @@ class EntryCategoryAdmin(admin.ModelAdmin):
     list_display = ['title', 'type', 'id']
     exclude = []
 
+    def save_model(self, request, obj, form, change):
+        if getattr(obj, 'id', None) is None:
+            obj.added_by = request.user
+            obj.created = timezone.now()
+        obj.modified = request.user
+        obj.modified_by = request.user
+        obj.save()
+
 
 @admin.register(CaseEntry)
 class CaseEntryAdmin(admin.ModelAdmin):
@@ -16,15 +25,12 @@ class CaseEntryAdmin(admin.ModelAdmin):
     list_display = ['compact_datetime', 'matter', 'category', 'description', 'time_spent']
     exclude = []
 
-    def get_form(self, request, obj=None, **kwargs):
-        # here insert/fill the current user name or id from request
-        CaseEntry.added_by = request.user
-        CaseEntry.modified_by = request.user
-        return super().get_form(request, obj, **kwargs)
-
     def save_model(self, request, obj, form, change):
-        obj.added_by = request.user
-        obj.last_modified_by = request.user
+        if getattr(obj, 'id', None) is None:
+            obj.added_by = request.user
+            obj.created = timezone.now()
+        obj.modified = request.user
+        obj.modified_by = request.user
         obj.save()
 
     # def get_changeform_initial_data(self, request):
