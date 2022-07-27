@@ -96,7 +96,10 @@ class Task(models.Model):
 
     # for admin display
     def compact_due_date(self):
-        return self.due_date.strftime("%m/%d/%y (%a)")
+        if self.due_date is not None:
+            return self.due_date.strftime("%m/%d/%y (%a)")
+        else:
+            return "????"
 
     compact_due_date.short_description = 'Due Date'
 
