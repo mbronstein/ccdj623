@@ -22,7 +22,7 @@ class EventCategory(models.Model):
         OTHER = 9, 'Other'
         WARNING = 10, 'Deadline Warning'
 
-    name = models.CharField(max_length=150)
+    title = models.CharField(max_length=150)
     type = models.IntegerField(choices=EventTypeChoices.choices,
                                default=EventTypeChoices.UNKNOWN)
     description = models.TextField(null=True, blank=True)
@@ -35,7 +35,7 @@ class EventCategory(models.Model):
     modified = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return self.title
 
     class Meta:
         app_label = 'events'
@@ -75,14 +75,7 @@ class Event(models.Model):
     attendees = models.CharField(max_length=60, null=True, blank=True)
     location = models.CharField(max_length=40, null=True, blank=True)
     status = models.IntegerField(choices=EventStatusType.choices, default=EventStatusType.PENDING)
-    created_date = models.DateField(default=timezone.now,
-                                    )
 
-    created_by = models.ForeignKey(USER_MODEL,
-                                   null=True,
-                                   related_name="event_created_by",
-                                   on_delete=models.CASCADE
-                                   )
 
     assigned_to = models.ForeignKey(USER_MODEL,
                                     default=1,
@@ -94,6 +87,13 @@ class Event(models.Model):
                             )
     priority = models.PositiveIntegerField(default=0
                                            )
+    created = models.DateField(default=timezone.now,
+                                    )
+    added_by = models.ForeignKey(USER_MODEL,
+                                 null=True,
+                                 related_name="event_created_by",
+                                 on_delete=models.CASCADE
+                                 )
 
     def __str__(self):
         return self.title
@@ -118,7 +118,7 @@ class Event(models.Model):
 
     class Meta:
         app_label = 'events'
-        ordering = ["priority", "created_date"]
+        ordering = ["priority", "created"]
 
 
 class EventFeed(ICalFeed):

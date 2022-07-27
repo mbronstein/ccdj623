@@ -69,20 +69,16 @@ class Task(models.Model):
                                null=True,
                                related_name='matter_tasks'
                                )
-    created_date = models.DateField(default=timezone.now,
-                                    )
+
     due_date = models.DateField(blank=True,
-                                null=True
+                                null=True,
+                                default=timezone.now
                                 )
     completed = models.BooleanField(default=False)
     completed_date = models.DateField(blank=True,
                                       null=True
                                       )
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                   related_name="user_created_by",
-                                   on_delete=models.CASCADE,
 
-                                   )
     assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL,
                                     related_name="user_task_assignments",
                                     on_delete=models.CASCADE,
@@ -93,6 +89,25 @@ class Task(models.Model):
                             )
     priority = models.PositiveIntegerField(default=0
                                            )
+    created = models.DateTimeField(auto_now_add=True,
+                                   )
+    modified = models.DateTimeField(auto_now_add=True,
+                                    )
+    added_by = models.ForeignKey(USER_MODEL,
+                                 blank=True,
+                                 null=True,
+                                 on_delete=models.SET_NULL,
+                                 related_name='+',
+                                 # default=USER_MODEL.objects.get(username='admin')
+                                 )
+    modified_by = models.ForeignKey(USER_MODEL,
+                                    blank=True,
+                                    null=True,
+                                    on_delete=models.SET_NULL,
+                                    related_name='+',
+                                    # default=USER_MODEL.objects.get(username='admin'),
+
+                                    )
 
     # for admin display
     def compact_due_date(self):

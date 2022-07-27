@@ -2,27 +2,44 @@
 import csv
 from django.contrib import admin
 from .models import TaskCategory, Task
+from django.utils import timezone
 
 
 @admin.register(TaskCategory)
 class TaskCategoryAdmin(admin.ModelAdmin):
     list_display = ["name", 'type', 'description', 'id']
+    exclude = ["created", "modified", "added_by", "modified_by", ]
     ordering = ["name"]
     list_filter = ['type']
     search_fields = ["name", "description"]
+
+    def save_model(self, request, obj, form, change):
+        if getattr(obj, 'id', None) is None:
+            obj.added_by = request.user
+            obj.created = timezone.now()
+        obj.modified = timezone.now()
+        obj.modified_by = timezone.now()
+        obj.save()
 
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
     list_display = ['compact_due_date', "title", "category", "matter", "priority",
                     "due_date", "assigned_to", "completed"]
-    exclude= ["created", "modified", "added_by", "modified_by", ]
+    exclude = ["created", "modified", "added_by", "modified_by", ]  # TODO change added_by to created_by
     # list_filter = ["assigned_to", "category"]
     ordering = ["priority", "due_date"]
+
     # search_fields = ["title"]
     # actions = [export_to_csv]
 
-
+    def save_model(self, request, obj, form, change):
+        if getattr(obj, 'id', None) is None:
+            obj.added_by = request.user
+            obj.created = timezone.now()
+        obj.modified = timezone.now()
+        obj.modified_by = timezone.now()
+        obj.save()
 #
 #
 # # #
