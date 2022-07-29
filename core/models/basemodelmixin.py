@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 from taggit.managers import TaggableManager
 from django_extensions.db.fields import AutoSlugField
 from django.utils import timezone
+from ckeditor.fields import RichTextField
 
 USER_MODEL = get_user_model()
 
@@ -35,9 +36,9 @@ class BaseModelMixin(models.Model):
 
     description = models.TextField(blank=True,
                                    null=True)
-    datetime = models.DateTimeField(blank=True, null=True,
+    datetime = models.DateTimeField(blank=True, null=True,aa
                                     auto_now_add=True)
-    notes = models.TextField(null=True, blank=True)
+    notes = RichTextField(null=True, blank=True)
     tags = TaggableManager(blank=True)
 
     status = models.IntegerField(default=1)
@@ -56,13 +57,37 @@ class BaseModelMixin(models.Model):
                                     null=True,
                                     on_delete=models.SET_NULL,
                                     related_name='+',
-
                                     )
+
+    @property
+    def compact_dow_datetime(self):
+        if self.datetime is not None:
+            return self.datetime.strftime("%m/%d/%y %I:%M %p  (%a)")
+        else:
+            return "???"
+
+    @property
+    def compact_datetime(self):
+        if self.datetime is not None:
+            return self.datetime.strftime("%m/%d/%y %I:%M %p")
+        else:
+            return "???"
+
+    @property
+    def compact_dow_date(self):
+        if self.datetime is not None:
+            return self.datetime.strftime("%m/%d/%y %I:%M %p (%a)")
+        else:
+            return "???"
+
+    @property
+    def compact_date(self):
+        return self.datetime.strftime("%m/%d/%y")
 
     class Meta:
         app_label = 'core'
         get_latest_by = True
-        ordering = ['title']
+        ordering = ['datetime']
         abstract = True
 
 # class VeryBaseModel(models.Model):
@@ -97,13 +122,13 @@ class BaseModelMixin(models.Model):
 #
 
 
-    # def save(self, **kwargs):
+# def save(self, **kwargs):
 
-    #     def save_model(self, request, obj, form, change):
-    #         if not obj.pk:
-    #             # Only set added_by during the first save.
-    #             obj.added_by = request.user
-    #         super().save(request, obj, form, change)
+#     def save_model(self, request, obj, form, change):
+#         if not obj.pk:
+#             # Only set added_by during the first save.
+#             obj.added_by = request.user
+#         super().save(request, obj, form, change)
 
 #
 #

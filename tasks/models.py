@@ -32,6 +32,7 @@ class TaskCategory(models.Model):
         BILL = 10, 'Prepare Bill'
         RESEARCH = 11, "Research"
         FIX = 12, "Fix"
+        SEND_FAX= 13, "Send Fax"
 
     id = models.BigAutoField
     type = models.IntegerField(choices=TaskTypeChoices.choices,

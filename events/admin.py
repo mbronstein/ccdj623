@@ -5,11 +5,11 @@ from django.utils import timezone
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    list_display = ['compact_start_datetime', 'title', 'matter', 'category', 'length','status']
+    list_display = ['compact_start_datetime',  'matter', 'category', 'length','status']
     exclude = ["created", "modified", "added_by", "modified_by", ]
     list_filter = ['category', 'status']
     search_fields = ["title"]
-    ordering = ['start_datetime']
+
 
     def save_model(self, request, obj, form, change):
         if getattr(obj, 'id', None) is None:

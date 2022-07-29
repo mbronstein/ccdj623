@@ -94,6 +94,7 @@ THIRD_PARTY_APPS = [
     "model_utils",
     "import_export",
     "auditlog",
+    "ckeditor",
     # "silk",
 ]
 

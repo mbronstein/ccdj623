@@ -20,7 +20,7 @@ class AsContact(BaseModelMixin):
     country = models.CharField(max_length=80,
                                blank=True,
                                null=True)
-    zip = models.CharField(max_length=80,
+    zipcode = models.CharField(max_length=80,
                            blank=True,
                            null=True)
     email = models.CharField(max_length=80,

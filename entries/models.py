@@ -38,7 +38,7 @@ class EntryCategory(BaseModelMixin):
         verbose_name_plural = "entry categories"
 
     def __str__(self):
-        return f"{self.title}({self.type}"
+        return f"{self.title}"
 
 
 class CaseEntry(BaseModelMixin):
