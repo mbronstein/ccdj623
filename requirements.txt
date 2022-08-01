@@ -10,6 +10,7 @@ django-reset-migrations
 psycopg2
 django-ical
 django-ckeditor
+django-admin-autocomplete-filter
 
 
 pydantic

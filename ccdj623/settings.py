@@ -107,7 +107,7 @@ LOCAL_APPS = [
     "kbentries.apps.KbEntriesConfig",
     # "sops.apps.SopsConfig",
     "contacts.apps.AsContactConfig",
-    # "apps.ssoffices.apps.SsofficesConfig"
+    "ssoffices.apps.SsofficesConfig",
     'timekeeping.apps.TimekeepingConfig'
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
