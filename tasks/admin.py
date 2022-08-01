@@ -25,10 +25,13 @@ class TaskCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ['compact_datetime', "title", "category", "matter", 'due_date',
+    list_display = ['compact_due_date', "title", "matter",
                     "priority", "assigned_to", "completed"]
-    list_editable = [ 'title', 'category', 'priority', 'due_date']
+    list_editable = [ 'title',  'priority', 'completed']
     exclude = ["created", "modified", "added_by", "modified_by", ]  # TODO change added_by to created_by
+    fields = ["datetime", 'matter', "title",  'category', 'due_date', 'priority',
+              "assigned_to", "notes", "completed" ]
+
     ordering = ["due_date"]
     list_filter = ["matter", 'category', 'priority']
 
