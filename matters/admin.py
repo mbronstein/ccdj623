@@ -10,8 +10,8 @@ class MatterTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Matter)
 class MatterAdmin(admin.ModelAdmin):
-    list_display = ['title', 'type', 'files_foldername']
-    fields = ["title", "type", "notes", "files_foldername", "case_id" ]
-    exclude = ["description", "notes", "created", "modified", "added_by", "modified_by", ]
+    list_display = ['title', 'type', ]
+    fields = ["title", "type", "description", "files_foldername", "case_id" ]
+    exclude = ["notes", "created", "modified", "added_by", "modified_by", ]
 
 

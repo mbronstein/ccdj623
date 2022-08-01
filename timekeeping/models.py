@@ -13,7 +13,7 @@ class WorkSession(BaseModelMixin):
                              )
     start_time = models.TimeField()
     end_time = models.TimeField()
-    duration = models.DecimalField(max_digits=4, decimal_places=1, null=True, blank=True)
+    duration = models.DurationField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.datetime} ({self.start_time} : {self.end_time} ({self.duration})"
