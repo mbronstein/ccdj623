@@ -12,6 +12,9 @@ class AsContact(BaseModelMixin):
     address = models.CharField(max_length=80,
                                blank=True,
                                null=True)
+    address2 = models.CharField(max_length=80,
+                               blank=True,
+                               null=True)
     city = models.CharField(max_length=80,
                             blank=True,
                             null=True)

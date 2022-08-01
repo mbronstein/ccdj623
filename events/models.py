@@ -42,7 +42,8 @@ class Event(BaseModelMixin):
         DONE = 4, 'Done'
         ONHOLD = 5, 'On Hold'
         OTHER = 6, 'Other'
-        WAIT_RESCHEDULE = 7, "Wait to be rescheduled"
+        SCHEDULED = 7, 'Scheduled'
+        WAIT_RESCHEDULE = 8, "Wait to be rescheduled"
 
     # class LocationChoices(models.TextChoices):
     #     UNKNOWN = "unk", "Unknown"
@@ -63,8 +64,9 @@ class Event(BaseModelMixin):
                                )
     length = models.IntegerField(default=30)
     # EndDateTime = models.DateTimeField(null=True)
-    attendees = models.CharField(max_length=60, null=True, blank=True)
-    location = models.CharField(max_length=40, null=True, blank=True)
+    attendees = models.CharField(max_length=80, null=True, blank=True)
+    location = models.CharField(max_length=80, null=True, blank=True)
+    location_url = models.URLField(null=True, blank=True)
     status = models.IntegerField(choices=EventStatusType.choices, default=EventStatusType.PENDING)
 
     assigned_to = models.ForeignKey(USER_MODEL,
@@ -83,10 +85,10 @@ class Event(BaseModelMixin):
         return reverse("event_detail", kwargs={"event_id": self.id})
 
     # for admin display
-    def compact_start_datetime(self):
+    def compact_datetime(self):
         return self.datetime.strftime("%m/%d/%y %I:%M %p (%a)")
 
-    compact_start_datetime.short_description = 'Date/Time'
+    compact_datetime.short_description = 'Date/Time'
 
     # def get_fields(self):
     #     return [(field.verbose_name, field.value_from_object(self))

@@ -8,6 +8,7 @@ from django.utils import timezone
 @admin.register(TaskCategory)
 class TaskCategoryAdmin(admin.ModelAdmin):
     list_display = ["name", 'type', 'description', 'id']
+    list_editable = ["type", 'description']
     exclude = ["created", "modified", "added_by", "modified_by", ]
     ordering = ["name"]
     list_filter = ['type']
@@ -24,11 +25,12 @@ class TaskCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ['compact_due_date', "title", "category", "matter", "priority",
-                    "due_date", "assigned_to", "completed"]
+    list_display = ['compact_datetime', "title", "category", "matter", 'due_date',
+                    "priority", "assigned_to", "completed"]
+    list_editable = [ 'title', 'category', 'priority', 'due_date']
     exclude = ["created", "modified", "added_by", "modified_by", ]  # TODO change added_by to created_by
-    # list_filter = ["assigned_to", "category"]
-    ordering = ["priority", "due_date"]
+    ordering = ["due_date"]
+    list_filter = ["matter", 'category', 'priority']
 
     # search_fields = ["title"]
     # actions = [export_to_csv]

@@ -43,8 +43,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('length', models.IntegerField(default=30)),
-                ('attendees', models.CharField(blank=True, max_length=60, null=True)),
-                ('location', models.CharField(blank=True, max_length=40, null=True)),
+                ('attendees', models.CharField(blank=True, max_length=80, null=True)),
+                ('location', models.CharField(blank=True, max_length=80, null=True)),
                 ('status', models.IntegerField(choices=[(1, 'Unknown'), (2, 'Pending'), (3, 'Cancelled'), (4, 'Done'), (5, 'On Hold'), (6, 'Other'), (7, 'Wait to be rescheduled')], default=2)),
                 ('priority', models.PositiveIntegerField(default=0)),
                 ('assigned_to', models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='event_assigned_to', to=settings.AUTH_USER_MODEL)),

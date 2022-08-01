@@ -14,6 +14,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from matters.models import Matter
+from core.models.basemodelmixin import BaseModelMixin
 
 USER_MODEL = get_user_model()
 
@@ -32,7 +33,7 @@ class TaskCategory(models.Model):
         BILL = 10, 'Prepare Bill'
         RESEARCH = 11, "Research"
         FIX = 12, "Fix"
-        SEND_FAX= 13, "Send Fax"
+        SEND_FAX = 13, "Send Fax"
 
     id = models.BigAutoField
     type = models.IntegerField(choices=TaskTypeChoices.choices,
@@ -58,10 +59,9 @@ class TaskCategory(models.Model):
         verbose_name_plural = "task categories"
 
 
-class Task(models.Model):
-    title = models.CharField(max_length=80)
+class Task(BaseModelMixin):
     category = models.ForeignKey('tasks.TaskCategory',
-                                 #default=TaskCategory.objects.get(pk=1),
+                                 # default=TaskCategory.objects.get(pk=1),
                                  null=True,
                                  on_delete=models.CASCADE,
                                  related_name="category_tasks")
@@ -73,7 +73,7 @@ class Task(models.Model):
 
     due_date = models.DateField(blank=True,
                                 null=True,
-                                default=timezone.now
+                                default=timezone.now,
                                 )
     completed = models.BooleanField(default=False)
     completed_date = models.DateField(blank=True,
@@ -82,42 +82,18 @@ class Task(models.Model):
 
     assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL,
                                     related_name="user_task_assignments",
-                                    on_delete=models.CASCADE,
-
-                                    )
-    note = models.TextField(blank=True,
-                            null=True,
-                            )
-    priority = models.PositiveIntegerField(default=0
-                                           )
-    created = models.DateTimeField(auto_now_add=True,
-                                   )
-    modified = models.DateTimeField(auto_now_add=True,
-                                    )
-    added_by = models.ForeignKey(USER_MODEL,
-                                 blank=True,
-                                 null=True,
-                                 on_delete=models.SET_NULL,
-                                 related_name='+',
-                                 # default=USER_MODEL.objects.get(username='admin')
-                                 )
-    modified_by = models.ForeignKey(USER_MODEL,
-                                    blank=True,
-                                    null=True,
-                                    on_delete=models.SET_NULL,
-                                    related_name='+',
-                                    # default=USER_MODEL.objects.get(username='admin'),
-
+                                    on_delete=models.CASCADE
                                     )
 
     # for admin display
+    @property
     def compact_due_date(self):
         if self.due_date is not None:
             return self.due_date.strftime("%m/%d/%y (%a)")
         else:
             return "????"
 
-    compact_due_date.short_description = 'Due Date'
+    due_date.short_description = 'Due Date'
 
     class Meta:
         app_label = 'tasks'

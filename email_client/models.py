@@ -1,12 +1,14 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from core.models import BaseModelMixin
+from matters.models import Matter
+from ckeditor.fields import RichTextField
 import django.utils.timezone
 # from django.utils import timezone
 
 from taggit.managers import TaggableManager
 from phonenumber_field.modelfields import PhoneNumberField
-from matters.models import Matter
+
 from model_utils.managers import InheritanceManager
 
 from django.utils import timezone
@@ -42,7 +44,7 @@ class DraftEmail(BaseModelMixin):
     bcc_emails = models.JSONField(max_length=120,
                                   null=True,
                                   blank=True)
-    html_body = models.(null=True,
+    html_body = models.RichTextField(null=True,
                                  blank=True
                                  )
     text_body = models.TextField(null=True,

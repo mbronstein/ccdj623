@@ -23,6 +23,7 @@ class CaseEntryAdmin(admin.ModelAdmin):
     # raw_id_fields = ['category']
     list_display = ['compact_dow_datetime', 'matter', 'category', 'description', 'time_spent']
     exclude = ["created", "modified", "added_by", "modified_by", "description" ]
+    list_editable= ['category', 'time_spent']
 
     def save_model(self, request, obj, form, change):
         if getattr(obj, 'id', None) is None:

@@ -7,6 +7,7 @@ from django.utils import timezone
 class CodeAdmin(admin.ModelAdmin):
     # fields = ['title', 'model', 'field_name', 'description', id]
     list_display = ['title', "model", 'field_name', 'id']
+    list_editable = [ 'model', 'field_name']
     ordering = ['title', 'model', 'field_name']
     list_filter = ['model', 'field_name']
     exclude = ["created", "modified", "added_by", "modified_by", ]

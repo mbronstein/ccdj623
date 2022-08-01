@@ -71,11 +71,7 @@ class CaseEntry(BaseModelMixin):
     def __str__(self):
         return f"{self.title}"
 
-    # for admin display
-    def compact_datetime(self):
-        return self.datetime.strftime("%m/%d/%y %I:%M %p (%a)")
 
-    compact_datetime.short_description = 'Date/Time'
     #
     # def file_folder_name(instance, filename):
     #     return instance.matter.title

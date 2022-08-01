@@ -108,7 +108,7 @@ LOCAL_APPS = [
     # "sops.apps.SopsConfig",
     "contacts.apps.AsContactConfig",
     # "apps.ssoffices.apps.SsofficesConfig"
-
+    'timekeeping.apps.TimekeepingConfig'
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
