@@ -8,6 +8,7 @@ from taggit.managers import TaggableManager
 from django_extensions.db.fields import AutoSlugField
 from django.utils import timezone
 from ckeditor.fields import RichTextField
+from core import utils
 
 USER_MODEL = get_user_model()
 
@@ -60,31 +61,14 @@ class BaseModelMixin(models.Model):
                                     related_name='+',
                                     )
 
-
+    #localized
     def compact_dow_datetime(self):
-        if self.datetime is not None:
-            return self.datetime.strftime("%m/%d/%y %I:%M %p  (%a)")
-        else:
-            return "???"
+        return utils.compact_date(self.datetime, with_dow=True)
 
-
+    # localized
     def compact_datetime(self):
-        if self.datetime is not None:
-            return self.datetime.strftime("%m/%d/%y %I:%M %p")
-        else:
-            return "???"
+        return utils.compact_date(self.datetime, with_dow=False)
 
-    def compact_dow_date(self):
-        if self.datetime is not None:
-            return self.datetime.strftime("%m/%d/%y %I:%M %p (%a)")
-        else:
-            return "???"
-
-    def compact_date(self):
-        if self.datetime is not None:
-            return self.datetime.strftime("%m/%d/%y")
-        else:
-            return "???"
 
     class Meta:
         app_label = 'core'

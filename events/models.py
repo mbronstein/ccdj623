@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django_ical.views import ICalFeed
 from core.models import BaseModelMixin
+from core import utils
 
 USER_MODEL = get_user_model()
 
@@ -84,11 +85,18 @@ class Event(BaseModelMixin):
     def get_absolute_url(self):
         return reverse("event_detail", kwargs={"event_id": self.id})
 
-    # for admin display
-    def compact_datetime(self):
-        return self.datetime.strftime("%m/%d/%y %I:%M %p (%a)")
 
-    compact_datetime.short_description = 'Date/Time'
+    # for admin display
+    @property
+    def compact_datetime(self):
+        return utils.compact_datetime(self.datetime, with_dow=False)
+
+    @property
+    def compact_dow_datetime(self):
+        return utils.compact_datetime(self.datetime, with_dow=True)
+
+    # compact_datetime.short_description = 'Date/Time'
+    # compact_dow_datetime.short_description = 'Date/Time'
 
     # def get_fields(self):
     #     return [(field.verbose_name, field.value_from_object(self))

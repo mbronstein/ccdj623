@@ -15,6 +15,7 @@ from django.utils import timezone
 
 from matters.models import Matter
 from core.models.basemodelmixin import BaseModelMixin
+from core import utils
 
 USER_MODEL = get_user_model()
 
@@ -88,11 +89,11 @@ class Task(BaseModelMixin):
     # for admin display
     @property
     def compact_due_date(self):
-        if self.due_date is not None:
-            return self.due_date.strftime("%m/%d/%y (%a)")
-        else:
-            return "????"
+        return utils.compact_date(self.due_date, with_dow=False)
 
+    @property
+    def compact_dow_due_date(self):
+        return utils.compact_date(self.due_date, with_dow=True)
     due_date.short_description = 'Due Date'
 
     class Meta:

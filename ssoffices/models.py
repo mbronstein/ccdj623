@@ -24,11 +24,7 @@ def create_slug(city, state, type):
 
 
 class SsOffice(models.Model):
-    class Meta:
-        app_label = "ssoffices"
-        ordering = ["slug"]
-        verbose_name = "SS Office"
-        verbose_name_plural = "SSA Offices"
+
 
     class SsOfficeTypes(models.IntegerChoices):
         UNKNOWN = 1, "Unknown"
@@ -88,8 +84,14 @@ class SsOffice(models.Model):
                                     null=True,
                                     )
 
+    class Meta:
+        app_label = "ssoffices"
+        ordering = ["slug"]
+        verbose_name = "SS Office"
+        verbose_name_plural = "SSA Offices"
+
     def __str__(self):
-        return self.slug
+        return self.display_name
 
     # def get_absolute_url(self):
     #     return reverse('ssoffices:ssoffices', kwargs={'slug': self.slug})
@@ -178,6 +180,7 @@ class SsStaff(models.Model):
             return f"{self.last_name}, {self.first_name}, {self.type}, {self.ssoffice}"
         except Exception as e:
             return "???"
+
 
     def display_name(self):
         try:

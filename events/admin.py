@@ -2,6 +2,7 @@ from django.contrib import admin
 from events.models import Event, EventCategory
 from django.utils import timezone
 from admin_auto_filters.filters import AutocompleteFilterFactory
+from core import utils
 
 MatterFilter = AutocompleteFilterFactory('Matter', 'matter')
 CategoryFilter = AutocompleteFilterFactory('Category', 'category')

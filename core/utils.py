@@ -1,18 +1,24 @@
 # core/utils
 
-#routines to for compact date display in admin records.
-
-def compact_dow_datetime(self, obj):
-    return obj.datetime.strftime("%a %m/%d/%y %I:%M %p")
+# routines to for compact date display in admin records.
 
 
-def compact_datetime(self, obj):
-    return obj.datetime.strftime("%m/%d/%y %I:%M %p")
+def compact_datetime(fld, with_dow=True):
+    try:
+        if with_dow is True:
+            return fld.astimezone().strftime("%m/%d/%y %I:%M %p")
+        else:
+            return fld.astimezone().strftime("%m/%d/%y %I:%M %p (%a)")
+    except Exception as e:
+        return "???"
 
 
-def compact_dow_date(self, obj):
-    return obj.datetime.strftime("%a %m/%d/%y %I:%M %p")
+def compact_date(fld,with_dow=True):
+    try:
+        if with_dow is True:
+            return fld.strftime("%m/%d/%y (%a)")
+        else:
+            return fld.strftime("%m/%d/%y (%a)")
+    except Exception as e:
+        return "???"
 
-
-def compact_date(self, obj):
-    return obj.datetime.strftime("%m/%d/%y")
