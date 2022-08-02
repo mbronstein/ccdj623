@@ -97,7 +97,7 @@ class Task(BaseModelMixin):
 
     class Meta:
         app_label = 'tasks'
-        # ordering = ["priority", "created_date"]
+        ordering = ['-due_date']
 
     def __str__(self):
         return f"{self.title}:{self.category}:{self.due_date} "

@@ -5,6 +5,7 @@ from phonenumber_field.widgets import PhoneNumberPrefixWidget
 from admin_auto_filters.filters import AutocompleteFilter
 from import_export.admin import ImportExportModelAdmin
 from .models import SsOffice, SsStaff
+from phonenumber_field.formfields import PhoneNumberField
 
 
 # class SsStaffInline(admin.TabularInline):

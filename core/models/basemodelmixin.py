@@ -36,14 +36,14 @@ class BaseModelMixin(models.Model):
 
     description = models.TextField(blank=True,
                                    null=True)
-    datetime = models.DateTimeField(blank=True, null=True,
+    datetime = models.DateTimeField(blank=True,
+                                    null=True,
                                     default=timezone.now)
-    notes = RichTextField(null=True, blank=True)
+    notes = RichTextField(null=True,
+                          blank=True)
     tags = TaggableManager(blank=True)
-
     status = models.IntegerField(default=1)
     priority = models.IntegerField(default=1)
-
     created = models.DateTimeField(auto_now_add=True,
                                    )
     modified = models.DateTimeField(auto_now_add=True,
@@ -60,13 +60,14 @@ class BaseModelMixin(models.Model):
                                     related_name='+',
                                     )
 
+
     def compact_dow_datetime(self):
         if self.datetime is not None:
             return self.datetime.strftime("%m/%d/%y %I:%M %p  (%a)")
         else:
             return "???"
 
-    @property
+
     def compact_datetime(self):
         if self.datetime is not None:
             return self.datetime.strftime("%m/%d/%y %I:%M %p")

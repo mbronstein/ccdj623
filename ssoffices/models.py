@@ -4,6 +4,7 @@ from django.conf import settings
 from django.urls import reverse
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils import timezone
+
 # from django.contrib.gis.db.models import PointField
 
 # list of all ssa office downloaded from
@@ -172,12 +173,14 @@ class SsStaff(models.Model):
                                     blank=True
                                     )
 
-
     def __str__(self):
-        return f"{self.last_name}, {self.first_name}, {self.type}, {self.ssoffice}"
-
-    def __repr__(self):
-        return f"{self.last_name}, {self.first_name}: {self.id} ({self.type})"
+        try:
+            return f"{self.last_name}, {self.first_name}, {self.type}, {self.ssoffice}"
+        except Exception as e:
+            return "???"
 
     def display_name(self):
-        return f"{self.last_name}, {self.first_name}, {self.type}"
+        try:
+            return f"{self.last_name}, {self.first_name}, {self.type}({self.ssoffice.city})"
+        except Exception as e:
+            return "????"

@@ -1,8 +1,12 @@
 # from https://github.com/shacker/django-todo
 import csv
 from django.contrib import admin
-from .models import TaskCategory, Task
 from django.utils import timezone
+from .models import TaskCategory, Task
+from admin_auto_filters.filters import AutocompleteFilterFactory
+
+MatterFilter = AutocompleteFilterFactory('Matter', 'matter')
+CategoryFilter = AutocompleteFilterFactory('Category', 'category')
 
 
 @admin.register(TaskCategory)
@@ -12,7 +16,7 @@ class TaskCategoryAdmin(admin.ModelAdmin):
     exclude = ["created", "modified", "added_by", "modified_by", ]
     ordering = ["name"]
     list_filter = ['type']
-    search_fields = ["name", "description"]
+    search_fields = ["name"]
 
     def save_model(self, request, obj, form, change):
         if getattr(obj, 'id', None) is None:
@@ -27,15 +31,16 @@ class TaskCategoryAdmin(admin.ModelAdmin):
 class TaskAdmin(admin.ModelAdmin):
     list_display = ['compact_due_date', "title", "matter",
                     "priority", "assigned_to", "completed"]
-    list_editable = [ 'title',  'priority', 'completed']
+    list_editable = ['title', 'priority', 'completed']
     exclude = ["created", "modified", "added_by", "modified_by", ]  # TODO change added_by to created_by
-    fields = ["datetime", 'matter', "title",  'category', 'due_date', 'priority',
-              "assigned_to", "notes", "completed" ]
+    fields = ["datetime", 'matter', "title", 'category', 'due_date', 'priority',
+              "assigned_to", "notes", "completed"]
 
     ordering = ["due_date"]
-    list_filter = ["matter", 'category', 'priority']
+    list_filter = [MatterFilter, CategoryFilter, 'due_date', 'priority']
 
-    # search_fields = ["title"]
+    search_fields = ["title"]
+
     # actions = [export_to_csv]
 
     def save_model(self, request, obj, form, change):
