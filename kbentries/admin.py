@@ -22,8 +22,9 @@ class KbEntryCategoryAdmin(admin.ModelAdmin):
 @admin.register(KbEntry)
 class KbEntryAdmin(admin.ModelAdmin):
     list_display = ['title', 'category', 'description']
-    list_filter = ["category"]
+    list_filter = ["category", 'datetime']
     exclude = ["created", "modified", "added_by", "modified_by", ]
+
     # ordering = ["due_date"]
     # search_fields = ["title"]
 

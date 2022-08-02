@@ -33,8 +33,8 @@ class TaskAdmin(admin.ModelAdmin):
                     "priority", "assigned_to", "completed"]
     list_editable = ['title', 'priority', 'completed']
     exclude = ["created", "modified", "added_by", "modified_by", ]  # TODO change added_by to created_by
-    fields = ["datetime", 'matter', "title", 'category', 'due_date', 'priority',
-              "assigned_to", "notes", "completed"]
+    fields = ['matter', "datetime",  'category', 'title',  'due_date', 'priority', 'notes',
+              "assigned_to",  "completed"]
 
     ordering = ["due_date"]
     list_filter = [MatterFilter, CategoryFilter, 'due_date', 'priority']

@@ -30,6 +30,7 @@ class CaseEntryAdmin(admin.ModelAdmin):
     exclude = ["created", "modified", "added_by", "modified_by", "description", 'slug']
     list_editable = ['category', 'time_spent']
     list_filter = [MatterFilter, CategoryFilter, 'datetime']
+    fields = ['matter', 'datetime', 'category',  'title', 'notes', 'time_spent', 'tags', 'status', 'priority']
     search_fields = ['title']
 
     def save_model(self, request, obj, form, change):
